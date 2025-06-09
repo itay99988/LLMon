@@ -1,0 +1,4 @@
+[
+  {"var_name": "a1", "transition_rule": "next(a1) := !a1"},
+  {"var_name": "a2", "transition_rule": "next(a2) := !(@(a2 <-> a2) -> a2)"}
+]

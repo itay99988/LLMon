@@ -1,0 +1,114 @@
+[
+  {
+    "op_name": "Previously",
+    "op_notation": "P",
+    "op_description": "q1 was true at some point in the past.",
+    "is_unary": true,
+    "class_name": "Previously",
+    "class_content": "class Previously:\n    \"\"\"P  –  once in the past\"\"\"\n    def __init__(self):\n        self.seen_true = False\n\n    def update(self, operand):\n        if operand:\n            self.seen_true = True\n        return self.seen_true"
+  },
+  {
+    "op_name": "Previous Time",
+    "op_notation": "@",
+    "op_description": "q1 is true one step before the most recent event.",
+    "is_unary": true,
+    "class_name": "PreviousTime",
+    "class_content": "class PreviousTime:\n    \"\"\"@  –  truth value one step ago\"\"\"\n    def __init__(self):\n        self.prev = False\n        self.first = True\n\n    def update(self, operand):\n        out = False if self.first else self.prev\n        self.first = False\n        self.prev = operand\n        return out"
+  },
+  {
+    "op_name": "Historically",
+    "op_notation": "H",
+    "op_description": "q1 was always true in the past.",
+    "is_unary": true,
+    "class_name": "Historically",
+    "class_content": "class Historically:\n    \"\"\"H  –  always in the past\"\"\"\n    def __init__(self):\n        self.truth_value = True\n\n    def update(self, operand):\n        if not operand:\n            self.truth_value = False\n        return self.truth_value"
+  },
+  {
+    "op_name": "Since",
+    "op_notation": "S",
+    "op_description": "q1 has been true since q2 was last true. (one step after that)",
+    "is_unary": false,
+    "class_name": "Since",
+    "class_content": "class Since:\n    \"\"\"S  –  left S right   ⇝   right was true and since then left held\"\"\"\n    def __init__(self):\n        self.truth_value = False\n\n    def update(self, left, right):\n        self.truth_value = right or (left and self.truth_value)\n        return self.truth_value"
+  },
+  {
+    "op_name": "q1 was false before q2",
+    "op_notation": "falsebefore",
+    "op_description": "This operator checks if q2 holds now, then q1 was never true in any past event.",
+    "is_unary": false,
+    "class_name": "FalseBeforeCumulative",
+    "class_content": "class FalseBeforeCumulative:\n    def __init__(self):\n        self.q1_ever_true = False\n\n    def update(self, q1, q2):\n        if q1:\n            self.q1_ever_true = True\n        if q2:\n            return not self.q1_ever_true\n        return True"
+  },
+  {
+    "op_name": "once-at-start",
+    "op_notation": "OAS",
+    "op_description": "OAS(q1) holds if 'q1' was true continuously from the start for at least one timestep.",
+    "is_unary": true,
+    "class_name": "OAS_Interpretation2",
+    "class_content": "class OAS_Interpretation2:\n    def __init__(self):\n        self.truth_value = False\n        self.started = False\n\n    def update(self, q1):\n        if not self.started:\n            self.started = True\n            self.truth_value = q1\n        return self.truth_value"
+  },
+  {
+    "op_name": "changes once",
+    "op_notation": "COO",
+    "op_description": "The operator is true if the value of q1 changes exactly once at any point in the sequence, regardless of the initial value.",
+    "is_unary": true,
+    "class_name": "COO_Interpretation3",
+    "class_content": "class COO_Interpretation3:\n    def __init__(self):\n        self.change_count = 0\n        self.previous_value = None\n        self.truth_value = False\n\n    def update(self, event):\n        if self.previous_value is None:\n            self.previous_value = event\n        elif event != self.previous_value:\n            self.change_count += 1\n            self.previous_value = event\n\n        self.truth_value = (self.change_count == 1)\n        return self.truth_value"
+  },
+  {
+    "op_name": "consistent boolean value",
+    "op_notation": "CBA",
+    "op_description": "CBA(q1) equals 'true' if the value of 'q1' is the same across all timesteps, and 'false' otherwise.",
+    "is_unary": true,
+    "class_name": "CBA_StrictConsistency",
+    "class_content": "class CBA_StrictConsistency:\n    def __init__(self):\n        self.consistent = True\n        self.first_value = None\n\n    def update(self, arg) -> bool:\n        if self.first_value is None:\n            self.first_value = arg\n        elif arg != self.first_value:\n            self.consistent = False\n\n        return self.consistent"
+  },
+  {
+    "op_name": "never",
+    "op_notation": "N",
+    "op_description": "'q1' never holds in the execution.",
+    "is_unary": true,
+    "class_name": "NeverOperator1",
+    "class_content": "class NeverOperator1:\n    def __init__(self):\n        self.truth_value = True\n\n    def update(self, event):\n        if event:\n            self.truth_value = False\n        return self.truth_value\n\n    def get_truth_value(self):\n        return self.truth_value"
+  },
+  {
+    "op_name": "happened before",
+    "op_notation": "HB",
+    "op_description": "at any given timestep it is true that if 'q2' holds, 'q1' happened before that (or at the same timestep)",
+    "is_unary": false,
+    "class_name": "TemporalOperator2",
+    "class_content": "class TemporalOperator2:\n    def __init__(self):\n        self.q1_occurred = False\n        self.operator_truth = True\n\n    def update(self, q1, q2):\n        if q2:\n            if not self.q1_occurred and not q1:\n                self.operator_truth = False\n        if q1:\n            self.q1_occurred = True\n        return self.operator_truth"
+  },
+  {
+    "op_name": "previous-time-historically",
+    "op_notation": "PTH",
+    "op_description": "'q1' has been true continuously from the beginning of the execution until one step before the most recent event",
+    "is_unary": true,
+    "class_name": "PHOperator1",
+    "class_content": "class PHOperator1:\n    def __init__(self):\n        self.ph_value = True  # Assume true until proven otherwise\n        self.previous_events = []  # Store previous events\n\n    def update(self, event):\n        q1 = event\n        if len(self.previous_events) == 0:\n            self.previous_events.append(q1)\n            return False\n        if len(self.previous_events) > 0 and not self.previous_events[-1]:\n            self.ph_value = False\n        self.previous_events.append(q1)\n        return self.ph_value"
+  },
+  {
+    "op_name": "value alternation",
+    "op_notation": "VA",
+    "op_description": "'q1' may be either true or false in the first timestep, and since then must change its value at every step.",
+    "is_unary": true,
+    "class_name": "ValueAlternationStrict",
+    "class_content": "class ValueAlternationStrict:\n    def __init__(self):\n        self.previous_value = None\n        self.is_valid = True\n\n    def update(self, event):\n        q1 = event\n        if self.previous_value is None:\n            self.previous_value = q1\n        else:\n            if q1 == self.previous_value:\n                self.is_valid = False\n            self.previous_value = q1\n        return self.is_valid"
+  },
+  {
+    "op_name": "weak since",
+    "op_notation": "WS",
+    "op_description": "'q1' has been true since 'q2' was last true. If 'q2' was never true, then 'a' must be true for the entire sequence.",
+    "is_unary": false,
+    "class_name": "WeakSinceStrict",
+    "class_content": "class WeakSinceStrict:\n    def __init__(self):\n        self.q2_last_true_index = -1\n        self.q1_since_q2 = True\n\n    def update(self, left, right):\n        q1 = left\n        q2 = right\n        if q2:\n            self.q2_last_true_index = 0\n            self.q1_since_q2 = True\n        elif self.q2_last_true_index != -1:\n            self.q1_since_q2 = self.q1_since_q2 and q1\n        else:\n            self.q1_since_q2 = self.q1_since_q2 and q1\n\n        return self.q1_since_q2"
+  },
+  {
+    "op_name": "false-since",
+    "op_notation": "FS",
+    "op_description": "since one step after the occurrence of 'q1', 'q2' has been false. If 'q1' was never true, falsince(q2,q1) is true",
+    "is_unary": false,
+    "class_name": "FalsinceOperator",
+    "class_content": "class FalsinceOperator:\n    def __init__(self):\n        self.q1_occurred = False\n        self.q2_false_since_q1 = True\n        self.previous_verdict = True\n\n    def update(self, left, right):\n        if right:\n            self.q1_occurred = True\n            self.q2_false_since_q1 = True  # Reset after q1 occurs\n        elif self.q1_occurred and left:\n            self.q2_false_since_q1 = False\n\n        self.previous_verdict = self.q2_false_since_q1\n        return self.previous_verdict"
+  }
+]

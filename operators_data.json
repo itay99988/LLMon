@@ -1,0 +1,58 @@
+[
+  {
+    "op_name": "Previously",
+    "op_notation": "P",
+    "op_description": "q1 was true at some point in the past.",
+    "is_unary": true,
+    "class_name": "Previously",
+    "class_content": "class Previously:\n    \"\"\"P  –  once in the past\"\"\"\n    def __init__(self):\n        self.seen_true = False\n\n    def update(self, operand):\n        if operand:\n            self.seen_true = True\n        return self.seen_true"
+  },
+  {
+    "op_name": "Previous Time",
+    "op_notation": "@",
+    "op_description": "q1 is true one step before the most recent event.",
+    "is_unary": true,
+    "class_name": "PreviousTime",
+    "class_content": "class PreviousTime:\n    \"\"\"@  –  truth value one step ago\"\"\"\n    def __init__(self):\n        self.prev = False\n        self.first = True\n\n    def update(self, operand):\n        out = False if self.first else self.prev\n        self.first = False\n        self.prev = operand\n        return out"
+  },
+  {
+    "op_name": "Historically",
+    "op_notation": "H",
+    "op_description": "q1 was always true in the past.",
+    "is_unary": true,
+    "class_name": "Historically",
+    "class_content": "class Historically:\n    \"\"\"H  –  always in the past\"\"\"\n    def __init__(self):\n        self.truth_value = True\n\n    def update(self, operand):\n        if not operand:\n            self.truth_value = False\n        return self.truth_value"
+  },
+  {
+    "op_name": "Since",
+    "op_notation": "S",
+    "op_description": "q1 has been true since q2 was last true. (one step after that)",
+    "is_unary": false,
+    "class_name": "Since",
+    "class_content": "class Since:\n    \"\"\"S  –  left S right   ⇝   right was true and since then left held\"\"\"\n    def __init__(self):\n        self.truth_value = False\n\n    def update(self, left, right):\n        self.truth_value = right or (left and self.truth_value)\n        return self.truth_value"
+  },
+  {
+    "op_name": "False Before",
+    "op_notation": "falsebefore",
+    "op_description": "This operator checks if q2 holds now, then q1 was never true in any past event.",
+    "is_unary": false,
+    "class_name": "FalseBeforeCumulative",
+    "class_content": "class FalseBeforeCumulative:\n    def __init__(self):\n        self.q1_ever_true = False\n\n    def update(self, q1, q2):\n        if q1:\n            self.q1_ever_true = True\n        if q2:\n            return not self.q1_ever_true\n        return True"
+  },
+  {
+    "op_name": "Once at Start",
+    "op_notation": "OAS",
+    "op_description": "OAS(q1) holds if 'q1' was true continuously from the start for at least one timestep.",
+    "is_unary": true,
+    "class_name": "OAS_Interpretation2",
+    "class_content": "class OAS_Interpretation2:\n    def __init__(self):\n        self.truth_value = False\n        self.started = False\n\n    def update(self, q1):\n        if not self.started:\n            self.started = True\n            self.truth_value = q1\n        return self.truth_value"
+  },
+  {
+    "op_name": "Changes Once",
+    "op_notation": "COO",
+    "op_description": "The operator is true if the value of q1 changes exactly once at any point in the sequence, regardless of the initial value.",
+    "is_unary": true,
+    "class_name": "COO_Interpretation3",
+    "class_content": "class COO_Interpretation3:\n    def __init__(self):\n        self.change_count = 0\n        self.previous_value = None\n        self.truth_value = False\n\n    def update(self, event):\n        if self.previous_value is None:\n            self.previous_value = event\n        elif event != self.previous_value:\n            self.change_count += 1\n            self.previous_value = event\n\n        self.truth_value = (self.change_count == 1)\n        return self.truth_value"
+  }
+]

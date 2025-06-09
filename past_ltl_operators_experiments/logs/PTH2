@@ -1,0 +1,1007 @@
+(llms_env) PS C:\Projects\rv_agent> python random_formulas_experiments\batch_formula_tester.py --new-op PTH --equiv "(@(H({arg})))"
+Monitor written to custom_monitor.py
+
+── Test #01 ──────────────────────────────────────────
+Original formula:  (((q1 S q1) S P(!q1)) && PTH(P(q1)))
+Translated:       (((q1 S q1) S P(!q1)) && (@(H(P(q1)))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #02 ──────────────────────────────────────────
+Original formula:  (PTH((q2 -> q1)) || H((q1 <-> q2)))
+Translated:       ((@(H((q2 -> q1)))) || H((q1 <-> q2)))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #03 ──────────────────────────────────────────
+Original formula:  ((((q3 S q1) || @(q3)) && PTH(@(!q4))) && q2)
+Translated:       ((((q3 S q1) || @(q3)) && (@(H(@(!q4))))) && q2)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #04 ──────────────────────────────────────────
+Original formula:  (((P(P(q3)) -> ((q5 S q1) S (q5 && q1))) && PTH((q5 || q4))) && q2)
+Translated:       (((P(P(q3)) -> ((q5 S q1) S (q5 && q1))) && (@(H((q5 || q4))))) && q2)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #05 ──────────────────────────────────────────
+Original formula:  ((((PTH((q4 S q4)) || H((q5 -> !q5))) && q1) && q2) && q3)
+Translated:       (((((@(H((q4 S q4)))) || H((q5 -> !q5))) && q1) && q2) && q3)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #06 ──────────────────────────────────────────
+Original formula:  ((@(q1) S P(q1)) && PTH((q1 S q1)))
+Translated:       ((@(q1) S P(q1)) && (@(H((q1 S q1)))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #07 ──────────────────────────────────────────
+Original formula:  (PTH((q1 S q1)) || (H(q2) && @(q3)))
+Translated:       ((@(H((q1 S q1)))) || (H(q2) && @(q3)))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #08 ──────────────────────────────────────────
+Original formula:  (((@(P(q3)) && PTH(H(q4))) && q1) && q2)
+Translated:       (((@(P(q3)) && (@(H(H(q4))))) && q1) && q2)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #09 ──────────────────────────────────────────
+Original formula:  (((PTH(P(q3)) || H((q5 <-> q1))) && q2) && q4)
+Translated:       ((((@(H(P(q3)))) || H((q5 <-> q1))) && q2) && q4)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #10 ──────────────────────────────────────────
+Original formula:  (@(((q1 <-> q1) S (!q2 S q1))) && PTH(H(q3)))
+Translated:       (@(((q1 <-> q1) S (!q2 S q1))) && (@(H(H(q3)))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #11 ──────────────────────────────────────────
+Original formula:  ((PTH((!q2 <-> q2)) || @((!q2 -> q2))) && q1)
+Translated:       (((@(H((!q2 <-> q2)))) || @((!q2 -> q2))) && q1)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #12 ──────────────────────────────────────────
+Original formula:  (@((q1 S q2)) && PTH(@(q3)))
+Translated:       (@((q1 S q2)) && (@(H(@(q3)))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #13 ──────────────────────────────────────────
+Original formula:  (@((q2 S q1)) && PTH((q2 -> q3)))
+Translated:       (@((q2 S q1)) && (@(H((q2 -> q3)))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #14 ──────────────────────────────────────────
+Original formula:  (((!q1 <-> q1) || (q2 -> q2)) && PTH(@(q2)))
+Translated:       (((!q1 <-> q1) || (q2 -> q2)) && (@(H(@(q2)))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #15 ──────────────────────────────────────────
+Original formula:  (PTH((q1 || q2)) || (@(P(q1)) <-> @((!q2 -> q2))))
+Translated:       ((@(H((q1 || q2)))) || (@(P(q1)) <-> @((!q2 -> q2))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #16 ──────────────────────────────────────────
+Original formula:  ((PTH((!q1 -> q3)) || P(P(!q3))) && q2)
+Translated:       (((@(H((!q1 -> q3)))) || P(P(!q3))) && q2)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #17 ──────────────────────────────────────────
+Original formula:  (PTH((q1 || q1)) || @((!q1 S !q1)))
+Translated:       ((@(H((q1 || q1)))) || @((!q1 S !q1)))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #18 ──────────────────────────────────────────
+Original formula:  ((PTH(H(q2)) || @(@(H(q2)))) && q1)
+Translated:       (((@(H(H(q2)))) || @(@(H(q2)))) && q1)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #19 ──────────────────────────────────────────
+Original formula:  ((@(q1) S @(q2)) && PTH(@(q2)))
+Translated:       ((@(q1) S @(q2)) && (@(H(@(q2)))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #20 ──────────────────────────────────────────
+Original formula:  (PTH(P(!q1)) || H(H(P(q1))))
+Translated:       ((@(H(P(!q1)))) || H(H(P(q1))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #21 ──────────────────────────────────────────
+Original formula:  ((((P((q5 && q2)) && PTH(P(!q5))) && q1) && q3) && q4)
+Translated:       ((((P((q5 && q2)) && (@(H(P(!q5))))) && q1) && q3) && q4)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #22 ──────────────────────────────────────────
+Original formula:  ((((@(P(q3)) -> @(@(q4))) && PTH((q3 S q5))) && q1) && q2)
+Translated:       ((((@(P(q3)) -> @(@(q4))) && (@(H((q3 S q5))))) && q1) && q2)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #23 ──────────────────────────────────────────
+Original formula:  ((PTH(P(q3)) || P(H(!q1))) && q2)
+Translated:       (((@(H(P(q3)))) || P(H(!q1))) && q2)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #24 ──────────────────────────────────────────
+Original formula:  ((@(P(q1)) <-> ((!q1 && q1) S (!q3 || !q2))) && PTH(P(q1)))
+Translated:       ((@(P(q1)) <-> ((!q1 && q1) S (!q3 || !q2))) && (@(H(P(q1)))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #25 ──────────────────────────────────────────
+Original formula:  ((@((P(!q4) S (q4 S q2))) && PTH(P(!q3))) && q1)
+Translated:       ((@((P(!q4) S (q4 S q2))) && (@(H(P(!q3))))) && q1)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #26 ──────────────────────────────────────────
+Original formula:  ((H(q1) S H(q1)) && PTH((q2 || q2)))
+Translated:       ((H(q1) S H(q1)) && (@(H((q2 || q2)))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #27 ──────────────────────────────────────────
+Original formula:  (PTH(P(!q1)) || H(H(q1)))
+Translated:       ((@(H(P(!q1)))) || H(H(q1)))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #28 ──────────────────────────────────────────
+Original formula:  (PTH((q1 <-> !q1)) || (P(@(q1)) || (H(q1) S H(q1))))
+Translated:       ((@(H((q1 <-> !q1)))) || (P(@(q1)) || (H(q1) S H(q1))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #29 ──────────────────────────────────────────
+Original formula:  (PTH((q2 S q1)) || (((q1 S q1) S P(q3)) && H(P(q3))))
+Translated:       ((@(H((q2 S q1)))) || (((q1 S q1) S P(q3)) && H(P(q3))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #30 ──────────────────────────────────────────
+Original formula:  ((PTH((q2 -> q3)) || H((q2 S !q3))) && q1)
+Translated:       (((@(H((q2 -> q3)))) || H((q2 S !q3))) && q1)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #31 ──────────────────────────────────────────
+Original formula:  (PTH((q3 <-> !q3)) || (P((q1 <-> q4)) S ((q2 <-> q1) S P(q3))))
+Translated:       ((@(H((q3 <-> !q3)))) || (P((q1 <-> q4)) S ((q2 <-> q1) S P(q3))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #32 ──────────────────────────────────────────
+Original formula:  (PTH(P(q1)) || ((H(!q1) S @(!q1)) && (@(q2) -> H(q2))))
+Translated:       ((@(H(P(q1)))) || ((H(!q1) S @(!q1)) && (@(q2) -> H(q2))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #33 ──────────────────────────────────────────
+Original formula:  (H(H((!q1 S q1))) && PTH(@(!q1)))
+Translated:       (H(H((!q1 S q1))) && (@(H(@(!q1)))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #34 ──────────────────────────────────────────
+Original formula:  ((PTH((q2 <-> !q3)) || H((@(q2) S P(q4)))) && q1)
+Translated:       (((@(H((q2 <-> !q3)))) || H((@(q2) S P(q4)))) && q1)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #35 ──────────────────────────────────────────
+Original formula:  (PTH((!q1 S !q1)) || @((q2 || q2)))
+Translated:       ((@(H((!q1 S !q1)))) || @((q2 || q2)))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #36 ──────────────────────────────────────────
+Original formula:  ((PTH(@(q4)) || P((@(q3) S (q4 -> q2)))) && q1)
+Translated:       (((@(H(@(q4)))) || P((@(q3) S (q4 -> q2)))) && q1)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #37 ──────────────────────────────────────────
+Original formula:  (PTH(@(!q1)) || @(H(!q1)))
+Translated:       ((@(H(@(!q1)))) || @(H(!q1)))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #38 ──────────────────────────────────────────
+Original formula:  (PTH((!q2 S q3)) || (P((!q3 -> !q1)) S P(H(q2))))
+Translated:       ((@(H((!q2 S q3)))) || (P((!q3 -> !q1)) S P(H(q2))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #39 ──────────────────────────────────────────
+Original formula:  (PTH((!q1 S !q1)) || H(H((q1 S q1))))
+Translated:       ((@(H((!q1 S !q1)))) || H(H((q1 S q1))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #40 ──────────────────────────────────────────
+Original formula:  (((P(q1) S P(q1)) S (H(q1) S H(q2))) && PTH(P(q1)))
+Translated:       (((P(q1) S P(q1)) S (H(q1) S H(q2))) && (@(H(P(q1)))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #41 ──────────────────────────────────────────
+Original formula:  (PTH(P(!q1)) || H(((q2 S q2) S (q1 S q2))))
+Translated:       ((@(H(P(!q1)))) || H(((q2 S q2) S (q1 S q2))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #42 ──────────────────────────────────────────
+Original formula:  (PTH(P(q3)) || (@(q1) || (q2 S q3)))
+Translated:       ((@(H(P(q3)))) || (@(q1) || (q2 S q3)))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #43 ──────────────────────────────────────────
+Original formula:  ((PTH((q4 || !q5)) || (P(q2) S P(q3))) && q1)
+Translated:       (((@(H((q4 || !q5)))) || (P(q2) S P(q3))) && q1)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #44 ──────────────────────────────────────────
+Original formula:  (PTH(P(q3)) || (((q1 || q1) -> H(q2)) || (@(q1) && H(q3))))
+Translated:       ((@(H(P(q3)))) || (((q1 || q1) -> H(q2)) || (@(q1) && H(q3))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #45 ──────────────────────────────────────────
+Original formula:  ((PTH((q3 S q4)) || H(H(!q1))) && q2)
+Translated:       (((@(H((q3 S q4)))) || H(H(!q1))) && q2)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #46 ──────────────────────────────────────────
+Original formula:  (((H(@(!q4)) <-> (H(q1) S (!q4 S !q1))) && PTH((q4 S q2))) && q3)
+Translated:       (((H(@(!q4)) <-> (H(q1) S (!q4 S !q1))) && (@(H((q4 S q2))))) && q3)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #47 ──────────────────────────────────────────
+Original formula:  (H(H((q2 S q1))) && PTH(H(q2)))
+Translated:       (H(H((q2 S q1))) && (@(H(H(q2)))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #48 ──────────────────────────────────────────
+Original formula:  (PTH((q1 || q2)) || @(P(q1)))
+Translated:       ((@(H((q1 || q2)))) || @(P(q1)))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #49 ──────────────────────────────────────────
+Original formula:  (PTH((q2 S q2)) || P(P((q2 && !q1))))
+Translated:       ((@(H((q2 S q2)))) || P(P((q2 && !q1))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #50 ──────────────────────────────────────────
+Original formula:  (PTH((q1 || !q3)) || (((!q2 S !q3) S (q3 <-> q3)) S H((q2 -> !q2))))
+Translated:       ((@(H((q1 || !q3)))) || (((!q2 S !q3) S (q3 <-> q3)) S H((q2 -> !q2))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #51 ──────────────────────────────────────────
+Original formula:  (PTH(H(!q1)) || P(@((q2 || q2))))
+Translated:       ((@(H(H(!q1)))) || P(@((q2 || q2))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #52 ──────────────────────────────────────────
+Original formula:  (PTH(@(q1)) || (H((q1 S !q2)) && @((q1 S q2))))
+Translated:       ((@(H(@(q1)))) || (H((q1 S !q2)) && @((q1 S q2))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #53 ──────────────────────────────────────────
+Original formula:  (((H(H(H(q4))) && PTH(H(q2))) && q1) && q3)
+Translated:       (((H(H(H(q4))) && (@(H(H(q2))))) && q1) && q3)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #54 ──────────────────────────────────────────
+Original formula:  ((H(q1) -> (q2 -> q2)) && PTH(H(q1)))
+Translated:       ((H(q1) -> (q2 -> q2)) && (@(H(H(q1)))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #55 ──────────────────────────────────────────
+Original formula:  (H(((q1 <-> q2) || (!q1 -> q1))) && PTH((q2 -> q2)))
+Translated:       (H(((q1 <-> q2) || (!q1 -> q1))) && (@(H((q2 -> q2)))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #56 ──────────────────────────────────────────
+Original formula:  (PTH((q1 <-> !q1)) || P(H((!q1 -> q1))))
+Translated:       ((@(H((q1 <-> !q1)))) || P(H((!q1 -> q1))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #57 ──────────────────────────────────────────
+Original formula:  (((H(q1) S (q1 S q1)) S (H(q1) -> (!q1 S !q1))) && PTH(H(q1)))
+Translated:       (((H(q1) S (q1 S q1)) S (H(q1) -> (!q1 S !q1))) && (@(H(H(q1)))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #58 ──────────────────────────────────────────
+Original formula:  ((PTH(@(!q2)) || @(P(H(!q2)))) && q1)
+Translated:       (((@(H(@(!q2)))) || @(P(H(!q2)))) && q1)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #59 ──────────────────────────────────────────
+Original formula:  (PTH(H(q1)) || (P(!q2) || P(q3)))
+Translated:       ((@(H(H(q1)))) || (P(!q2) || P(q3)))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #60 ──────────────────────────────────────────
+Original formula:  (PTH((!q1 S q2)) || (H(q1) S (!q1 S q3)))
+Translated:       ((@(H((!q1 S q2)))) || (H(q1) S (!q1 S q3)))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #61 ──────────────────────────────────────────
+Original formula:  (((!q2 S q2) S (q1 S !q2)) && PTH((q2 S q1)))
+Translated:       (((!q2 S q2) S (q1 S !q2)) && (@(H((q2 S q1)))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #62 ──────────────────────────────────────────
+Original formula:  ((PTH(H(q1)) || H(H(q1))) && q2)
+Translated:       (((@(H(H(q1)))) || H(H(q1))) && q2)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #63 ──────────────────────────────────────────
+Original formula:  (PTH(P(q1)) || ((q1 S !q1) S (q1 S !q1)))
+Translated:       ((@(H(P(q1)))) || ((q1 S !q1) S (q1 S !q1)))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #64 ──────────────────────────────────────────
+Original formula:  (H(((q1 S q1) S @(q1))) && PTH((!q1 S q1)))
+Translated:       (H(((q1 S q1) S @(q1))) && (@(H((!q1 S q1)))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #65 ──────────────────────────────────────────
+Original formula:  (((H(q2) S (!q1 S q2)) S P((q2 && q2))) && PTH(@(q2)))
+Translated:       (((H(q2) S (!q1 S q2)) S P((q2 && q2))) && (@(H(@(q2)))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #66 ──────────────────────────────────────────
+Original formula:  (P(H((q1 <-> q1))) && PTH((!q1 -> q1)))
+Translated:       (P(H((q1 <-> q1))) && (@(H((!q1 -> q1)))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #67 ──────────────────────────────────────────
+Original formula:  ((((P(@(q1)) S P(P(q4))) && PTH(@(q4))) && q2) && q3)
+Translated:       ((((P(@(q1)) S P(P(q4))) && (@(H(@(q4))))) && q2) && q3)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #68 ──────────────────────────────────────────
+Original formula:  ((((q2 S q2) S (q1 S !q2)) <-> ((!q2 -> q2) S @(q1))) && PTH((q1 <-> !q2)))
+Translated:       ((((q2 S q2) S (q1 S !q2)) <-> ((!q2 -> q2) S @(q1))) && (@(H((q1 <-> !q2)))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #69 ──────────────────────────────────────────
+Original formula:  (((@(((q3 <-> q4) S H(q4))) && PTH(@(q5))) && q1) && q2)
+Translated:       (((@(((q3 <-> q4) S H(q4))) && (@(H(@(q5))))) && q1) && q2)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #70 ──────────────────────────────────────────
+Original formula:  ((((PTH(@(q4)) || H(@(!q5))) && q1) && q2) && q3)
+Translated:       (((((@(H(@(q4)))) || H(@(!q5))) && q1) && q2) && q3)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #71 ──────────────────────────────────────────
+Original formula:  (PTH(P(q1)) || (P(!q1) S @(q1)))
+Translated:       ((@(H(P(q1)))) || (P(!q1) S @(q1)))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #72 ──────────────────────────────────────────
+Original formula:  ((PTH(@(q3)) || ((q1 S q3) -> @(q1))) && q2)
+Translated:       (((@(H(@(q3)))) || ((q1 S q3) -> @(q1))) && q2)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #73 ──────────────────────────────────────────
+Original formula:  (PTH((q3 S q1)) || ((q3 || q2) S (q1 || !q1)))
+Translated:       ((@(H((q3 S q1)))) || ((q3 || q2) S (q1 || !q1)))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #74 ──────────────────────────────────────────
+Original formula:  (PTH(H(!q1)) || ((H(q2) <-> (q1 -> q3)) || (@(q2) S H(q2))))
+Translated:       ((@(H(H(!q1)))) || ((H(q2) <-> (q1 -> q3)) || (@(q2) S H(q2))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #75 ──────────────────────────────────────────
+Original formula:  ((@(H(q2)) && PTH(H(q1))) && q2)
+Translated:       ((@(H(q2)) && (@(H(H(q1))))) && q2)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #76 ──────────────────────────────────────────
+Original formula:  (PTH((q1 S !q2)) || H(P(q2)))
+Translated:       ((@(H((q1 S !q2)))) || H(P(q2)))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #77 ──────────────────────────────────────────
+Original formula:  (PTH(@(q1)) || P(H(P(!q1))))
+Translated:       ((@(H(@(q1)))) || P(H(P(!q1))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #78 ──────────────────────────────────────────
+Original formula:  (((P(H((q3 S !q4))) && PTH((q3 S q4))) && q1) && q2)
+Translated:       (((P(H((q3 S !q4))) && (@(H((q3 S q4))))) && q1) && q2)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #79 ──────────────────────────────────────────
+Original formula:  (PTH(H(!q2)) || ((q1 S q4) S (!q3 <-> !q3)))
+Translated:       ((@(H(H(!q2)))) || ((q1 S q4) S (!q3 <-> !q3)))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #80 ──────────────────────────────────────────
+Original formula:  ((@((!q3 S q1)) && PTH(P(!q3))) && q2)
+Translated:       ((@((!q3 S q1)) && (@(H(P(!q3))))) && q2)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #81 ──────────────────────────────────────────
+Original formula:  ((((!q2 S q1) S (q2 <-> q2)) S (P(q3) S (!q2 S q1))) && PTH(P(q2)))
+Translated:       ((((!q2 S q1) S (q2 <-> q2)) S (P(q3) S (!q2 S q1))) && (@(H(P(q2)))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #82 ──────────────────────────────────────────
+Original formula:  (PTH((!q1 S q3)) || ((P(!q2) S (q2 <-> q2)) || @((q3 S !q2))))
+Translated:       ((@(H((!q1 S q3)))) || ((P(!q2) S (q2 <-> q2)) || @((q3 S !q2))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #83 ──────────────────────────────────────────
+Original formula:  (PTH(@(q1)) || H(@(@(q1))))
+Translated:       ((@(H(@(q1)))) || H(@(@(q1))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #84 ──────────────────────────────────────────
+Original formula:  ((PTH((q2 -> q4)) || ((P(q4) S (q3 S q2)) && H((!q5 S !q5)))) && q1)
+Translated:       (((@(H((q2 -> q4)))) || ((P(q4) S (q3 S q2)) && H((!q5 S !q5)))) && q1)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #85 ──────────────────────────────────────────
+Original formula:  (P(H(!q1)) && PTH(@(q1)))
+Translated:       (P(H(!q1)) && (@(H(@(q1)))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #86 ──────────────────────────────────────────
+Original formula:  ((H(q2) -> @(q2)) && PTH((q1 S q1)))
+Translated:       ((H(q2) -> @(q2)) && (@(H((q1 S q1)))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #87 ──────────────────────────────────────────
+Original formula:  ((P(q1) || @(q1)) && PTH(@(q1)))
+Translated:       ((P(q1) || @(q1)) && (@(H(@(q1)))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #88 ──────────────────────────────────────────
+Original formula:  (@(@(H(q1))) && PTH(H(!q2)))
+Translated:       (@(@(H(q1))) && (@(H(H(!q2)))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #89 ──────────────────────────────────────────
+Original formula:  (PTH(H(q1)) || P(P((q1 && q1))))
+Translated:       ((@(H(H(q1)))) || P(P((q1 && q1))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #90 ──────────────────────────────────────────
+Original formula:  (PTH((q1 S q1)) || H(P(q1)))
+Translated:       ((@(H((q1 S q1)))) || H(P(q1)))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #91 ──────────────────────────────────────────
+Original formula:  ((((P(q4) -> P(q4)) && PTH(@(q2))) && q1) && q3)
+Translated:       ((((P(q4) -> P(q4)) && (@(H(@(q2))))) && q1) && q3)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #92 ──────────────────────────────────────────
+Original formula:  ((((P((q5 S q5)) && PTH((q5 <-> q1))) && q2) && q3) && q4)
+Translated:       ((((P((q5 S q5)) && (@(H((q5 <-> q1))))) && q2) && q3) && q4)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #93 ──────────────────────────────────────────
+Original formula:  (((H(@(P(q1))) && PTH((q4 && q4))) && q2) && q3)
+Translated:       (((H(@(P(q1))) && (@(H((q4 && q4))))) && q2) && q3)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #94 ──────────────────────────────────────────
+Original formula:  (PTH((q2 S !q5)) || (P((q4 S q1)) && (P(q3) S P(q4))))
+Translated:       ((@(H((q2 S !q5)))) || (P((q4 S q1)) && (P(q3) S P(q4))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #95 ──────────────────────────────────────────
+Original formula:  (P((P(!q1) -> P(!q2))) && PTH(P(!q1)))
+Translated:       (P((P(!q1) -> P(!q2))) && (@(H(P(!q1)))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #96 ──────────────────────────────────────────
+Original formula:  ((PTH(H(q3)) || ((P(q3) S H(!q1)) || (P(!q4) || P(q4)))) && q2)
+Translated:       (((@(H(H(q3)))) || ((P(q3) S H(!q1)) || (P(!q4) || P(q4)))) && q2)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #97 ──────────────────────────────────────────
+Original formula:  (((@((@(q3) S @(q4))) && PTH(H(q5))) && q1) && q2)
+Translated:       (((@((@(q3) S @(q4))) && (@(H(H(q5))))) && q1) && q2)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #98 ──────────────────────────────────────────
+Original formula:  (PTH((q1 S q1)) || P((H(q1) S P(!q1))))
+Translated:       ((@(H((q1 S q1)))) || P((H(q1) S P(!q1))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #99 ──────────────────────────────────────────
+Original formula:  (((q1 || !q1) S (q2 -> !q3)) && PTH(P(!q2)))
+Translated:       (((q1 || !q1) S (q2 -> !q3)) && (@(H(P(!q2)))))
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #100 ──────────────────────────────────────────
+Original formula:  (((@(q2) || H(q4)) && PTH(@(q1))) && q3)
+Translated:       (((@(q2) || H(q4)) && (@(H(@(q1))))) && q3)
+------------------------------------------------------------
+correct verdicts: 50000 out of 50000
+correct traces: 1000 out of 1000
+
+Result: SUCCESS ✅
+
+============================================================
+   TOTAL SUCCEEDED:  100 / 100
+============================================================
+(llms_env) PS C:\Projects\rv_agent>
+

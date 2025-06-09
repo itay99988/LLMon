@@ -1,0 +1,1006 @@
+(llms_env) PS C:\Projects\rv_agent> python random_formulas_experiments\batch_formula_tester.py --new-op OAS --equiv "P(H({arg}))"
+Monitor written to custom_monitor.py
+
+── Test #01 ──────────────────────────────────────────
+Original formula:  ((P(H(!q3)) && OAS(P(q1))) && q2)
+Translated:       ((P(H(!q3)) && P(H(P(q1)))) && q2)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #02 ──────────────────────────────────────────
+Original formula:  (((OAS((q4 && q1)) || P((!q1 <-> q4))) && q2) && q3)
+Translated:       (((P(H((q4 && q1))) || P((!q1 <-> q4))) && q2) && q3)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #03 ──────────────────────────────────────────
+Original formula:  (OAS((q1 S q1)) || @(H(q1)))
+Translated:       (P(H((q1 S q1))) || @(H(q1)))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #04 ──────────────────────────────────────────
+Original formula:  ((((q1 || q1) S (!q1 S q1)) S H((q1 S q1))) && OAS(P(q1)))
+Translated:       ((((q1 || q1) S (!q1 S q1)) S H((q1 S q1))) && P(H(P(q1))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #05 ──────────────────────────────────────────
+Original formula:  ((P((!q1 <-> q3)) S P((q2 -> q2))) && OAS((q4 S !q3)))
+Translated:       ((P((!q1 <-> q3)) S P((q2 -> q2))) && P(H((q4 S !q3))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #06 ──────────────────────────────────────────
+Original formula:  (OAS(@(!q1)) || ((q1 S q1) && P(q1)))
+Translated:       (P(H(@(!q1))) || ((q1 S q1) && P(q1)))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #07 ──────────────────────────────────────────
+Original formula:  (((OAS(@(!q4)) || @((q4 S q1))) && q2) && q3)
+Translated:       (((P(H(@(!q4))) || @((q4 S q1))) && q2) && q3)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #08 ──────────────────────────────────────────
+Original formula:  (@(@(q1)) && OAS(H(!q1)))
+Translated:       (@(@(q1)) && P(H(H(!q1))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #09 ──────────────────────────────────────────
+Original formula:  (((H(P(!q4)) && OAS((q4 S q3))) && q1) && q2)
+Translated:       (((H(P(!q4)) && P(H((q4 S q3)))) && q1) && q2)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #10 ──────────────────────────────────────────
+Original formula:  ((OAS(P(q3)) || (@(q1) || @(!q3))) && q2)
+Translated:       ((P(H(P(q3))) || (@(q1) || @(!q3))) && q2)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #11 ──────────────────────────────────────────
+Original formula:  ((((OAS(H(q4)) || @((q4 S q4))) && q1) && q2) && q3)
+Translated:       ((((P(H(H(q4))) || @((q4 S q4))) && q1) && q2) && q3)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #12 ──────────────────────────────────────────
+Original formula:  ((@(q1) S @(!q1)) && OAS((q1 && q2)))
+Translated:       ((@(q1) S @(!q1)) && P(H((q1 && q2))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #13 ──────────────────────────────────────────
+Original formula:  (((((q5 S q2) -> P(q5)) && OAS(@(q1))) && q3) && q4)
+Translated:       (((((q5 S q2) -> P(q5)) && P(H(@(q1)))) && q3) && q4)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #14 ──────────────────────────────────────────
+Original formula:  ((OAS((q1 && q4)) || P(@(q2))) && q3)
+Translated:       ((P(H((q1 && q4))) || P(@(q2))) && q3)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #15 ──────────────────────────────────────────
+Original formula:  (((OAS(@(q4)) || H(H(!q2))) && q1) && q3)
+Translated:       (((P(H(@(q4))) || H(H(!q2))) && q1) && q3)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #16 ──────────────────────────────────────────
+Original formula:  ((OAS((!q4 && !q4)) || (@(q2) S @(q1))) && q3)
+Translated:       ((P(H((!q4 && !q4))) || (@(q2) S @(q1))) && q3)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #17 ──────────────────────────────────────────
+Original formula:  (OAS(H(q1)) || (P((q1 || q2)) S H((q1 S q3))))
+Translated:       (P(H(H(q1))) || (P((q1 || q2)) S H((q1 S q3))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #18 ──────────────────────────────────────────
+Original formula:  (OAS((q1 S q2)) || @(((q1 S q1) -> H(q1))))
+Translated:       (P(H((q1 S q2))) || @(((q1 S q1) -> H(q1))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #19 ──────────────────────────────────────────
+Original formula:  (((H(q2) || (q2 S !q2)) && OAS(H(q2))) && q1)
+Translated:       (((H(q2) || (q2 S !q2)) && P(H(H(q2)))) && q1)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #20 ──────────────────────────────────────────
+Original formula:  ((OAS(H(q1)) || ((q1 S q3) S P(!q3))) && q2)
+Translated:       ((P(H(H(q1))) || ((q1 S q3) S P(!q3))) && q2)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #21 ──────────────────────────────────────────
+Original formula:  ((OAS((q3 S q3)) || H(@(P(q2)))) && q1)
+Translated:       ((P(H((q3 S q3))) || H(@(P(q2)))) && q1)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #22 ──────────────────────────────────────────
+Original formula:  ((H(((q3 S q3) <-> (q1 -> q3))) && OAS(P(q3))) && q2)
+Translated:       ((H(((q3 S q3) <-> (q1 -> q3))) && P(H(P(q3)))) && q2)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #23 ──────────────────────────────────────────
+Original formula:  (@((q1 S q3)) && OAS(@(q2)))
+Translated:       (@((q1 S q3)) && P(H(@(q2))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #24 ──────────────────────────────────────────
+Original formula:  ((((q4 S q2) -> (q3 && q2)) && OAS(@(q2))) && q1)
+Translated:       ((((q4 S q2) -> (q3 && q2)) && P(H(@(q2)))) && q1)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #25 ──────────────────────────────────────────
+Original formula:  ((OAS((q3 S q1)) || @(H(q1))) && q2)
+Translated:       ((P(H((q3 S q1))) || @(H(q1))) && q2)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #26 ──────────────────────────────────────────
+Original formula:  (OAS((q2 <-> q1)) || ((P(q2) S (q1 S q1)) S H(@(q1))))
+Translated:       (P(H((q2 <-> q1))) || ((P(q2) S (q1 S q1)) S H(@(q1))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #27 ──────────────────────────────────────────
+Original formula:  ((@((H(q4) S (q5 S !q3))) && OAS((q4 S q2))) && q1)
+Translated:       ((@((H(q4) S (q5 S !q3))) && P(H((q4 S q2)))) && q1)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #28 ──────────────────────────────────────────
+Original formula:  (OAS(P(q1)) || (@((!q1 S !q1)) || P((q1 S q1))))
+Translated:       (P(H(P(q1))) || (@((!q1 S !q1)) || P((q1 S q1))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #29 ──────────────────────────────────────────
+Original formula:  (OAS((!q1 -> q1)) || @(H((!q1 <-> q1))))
+Translated:       (P(H((!q1 -> q1))) || @(H((!q1 <-> q1))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #30 ──────────────────────────────────────────
+Original formula:  ((OAS(P(q4)) || ((P(q1) S P(q3)) S @(H(q1)))) && q2)
+Translated:       ((P(H(P(q4))) || ((P(q1) S P(q3)) S @(H(q1)))) && q2)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #31 ──────────────────────────────────────────
+Original formula:  (OAS(@(q2)) || H((H(q3) S (q1 && q4))))
+Translated:       (P(H(@(q2))) || H((H(q3) S (q1 && q4))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #32 ──────────────────────────────────────────
+Original formula:  (((P(((q3 S q3) && @(q5))) && OAS((q3 S !q4))) && q1) && q2)
+Translated:       (((P(((q3 S q3) && @(q5))) && P(H((q3 S !q4)))) && q1) && q2)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #33 ──────────────────────────────────────────
+Original formula:  (((H(@(q3)) S (P(q2) S (q3 S !q3))) && OAS(P(q2))) && q1)
+Translated:       (((H(@(q3)) S (P(q2) S (q3 S !q3))) && P(H(P(q2)))) && q1)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #34 ──────────────────────────────────────────
+Original formula:  ((((@((q2 -> q5)) <-> P(H(q4))) && OAS(H(q2))) && q1) && q3)
+Translated:       ((((@((q2 -> q5)) <-> P(H(q4))) && P(H(H(q2)))) && q1) && q3)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #35 ──────────────────────────────────────────
+Original formula:  (((OAS((q4 S q4)) || H(P(q3))) && q1) && q2)
+Translated:       (((P(H((q4 S q4))) || H(P(q3))) && q1) && q2)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #36 ──────────────────────────────────────────
+Original formula:  ((OAS((!q2 S q4)) || ((q1 S q1) S H(!q5))) && q3)
+Translated:       ((P(H((!q2 S q4))) || ((q1 S q1) S H(!q5))) && q3)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #37 ──────────────────────────────────────────
+Original formula:  ((OAS(H(q1)) || P(P(q1))) && q1)
+Translated:       ((P(H(H(q1))) || P(P(q1))) && q1)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #38 ──────────────────────────────────────────
+Original formula:  (OAS((!q2 S !q3)) || @(H(q1)))
+Translated:       (P(H((!q2 S !q3))) || @(H(q1)))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #39 ──────────────────────────────────────────
+Original formula:  (OAS(P(q1)) || @(((!q1 S !q1) S @(!q1))))
+Translated:       (P(H(P(q1))) || @(((!q1 S !q1) S @(!q1))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #40 ──────────────────────────────────────────
+Original formula:  (OAS((!q1 S q1)) || ((!q1 || !q1) S @(q1)))
+Translated:       (P(H((!q1 S q1))) || ((!q1 || !q1) S @(q1)))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #41 ──────────────────────────────────────────
+Original formula:  (H(H(@(q1))) && OAS((!q1 && q2)))
+Translated:       (H(H(@(q1))) && P(H((!q1 && q2))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #42 ──────────────────────────────────────────
+Original formula:  (H(@(q1)) && OAS((q1 <-> !q1)))
+Translated:       (H(@(q1)) && P(H((q1 <-> !q1))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #43 ──────────────────────────────────────────
+Original formula:  (OAS((q1 S q1)) || ((H(q1) S @(q1)) S H((q1 <-> !q1))))
+Translated:       (P(H((q1 S q1))) || ((H(q1) S @(q1)) S H((q1 <-> !q1))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #44 ──────────────────────────────────────────
+Original formula:  ((OAS(P(q4)) || (((q2 <-> q1) && (q4 S q4)) S (P(q2) S H(!q1)))) && q3)
+Translated:       ((P(H(P(q4))) || (((q2 <-> q1) && (q4 S q4)) S (P(q2) S H(!q1)))) && q3)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #45 ──────────────────────────────────────────
+Original formula:  ((OAS((q3 S q1)) || P(P(@(q1)))) && q2)
+Translated:       ((P(H((q3 S q1))) || P(P(@(q1)))) && q2)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #46 ──────────────────────────────────────────
+Original formula:  ((OAS((q3 || q4)) || H(P((!q5 || q2)))) && q1)
+Translated:       ((P(H((q3 || q4))) || H(P((!q5 || q2)))) && q1)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #47 ──────────────────────────────────────────
+Original formula:  (((@(H(q1)) S (H(q3) <-> P(q1))) && OAS(@(q4))) && q2)
+Translated:       (((@(H(q1)) S (H(q3) <-> P(q1))) && P(H(@(q4)))) && q2)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #48 ──────────────────────────────────────────
+Original formula:  (@(P((!q1 -> !q2))) && OAS(P(q2)))
+Translated:       (@(P((!q1 -> !q2))) && P(H(P(q2))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #49 ──────────────────────────────────────────
+Original formula:  ((OAS(H(q2)) || ((q4 && q2) S (!q1 S q1))) && q3)
+Translated:       ((P(H(H(q2))) || ((q4 && q2) S (!q1 S q1))) && q3)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #50 ──────────────────────────────────────────
+Original formula:  ((OAS(P(q2)) || (@(P(q4)) S H((!q2 S !q3)))) && q1)
+Translated:       ((P(H(P(q2))) || (@(P(q4)) S H((!q2 S !q3)))) && q1)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #51 ──────────────────────────────────────────
+Original formula:  (((P(q5) S @(q4)) && P((q1 S q1))) && OAS((q2 <-> !q3)))
+Translated:       (((P(q5) S @(q4)) && P((q1 S q1))) && P(H((q2 <-> !q3))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #52 ──────────────────────────────────────────
+Original formula:  (H(@((q1 <-> q1))) && OAS(@(q1)))
+Translated:       (H(@((q1 <-> q1))) && P(H(@(q1))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #53 ──────────────────────────────────────────
+Original formula:  ((OAS(@(!q3)) || H(P((q2 && q4)))) && q1)
+Translated:       ((P(H(@(!q3))) || H(P((q2 && q4)))) && q1)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #54 ──────────────────────────────────────────
+Original formula:  (OAS((q1 S q1)) || P(P(q1)))
+Translated:       (P(H((q1 S q1))) || P(P(q1)))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #55 ──────────────────────────────────────────
+Original formula:  (OAS((q3 -> q1)) || @(H((q2 S q1))))
+Translated:       (P(H((q3 -> q1))) || @(H((q2 S q1))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #56 ──────────────────────────────────────────
+Original formula:  (OAS((q1 && !q1)) || P((q1 S q1)))
+Translated:       (P(H((q1 && !q1))) || P((q1 S q1)))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #57 ──────────────────────────────────────────
+Original formula:  (@(((q2 S q3) -> @(!q3))) && OAS(P(!q1)))
+Translated:       (@(((q2 S q3) -> @(!q3))) && P(H(P(!q1))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #58 ──────────────────────────────────────────
+Original formula:  ((@(P(q1)) && OAS(H(q1))) && q1)
+Translated:       ((@(P(q1)) && P(H(H(q1)))) && q1)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #59 ──────────────────────────────────────────
+Original formula:  (((OAS(H(q2)) || (H(!q5) S (!q2 <-> q3))) && q1) && q4)
+Translated:       (((P(H(H(q2))) || (H(!q5) S (!q2 <-> q3))) && q1) && q4)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #60 ──────────────────────────────────────────
+Original formula:  (((OAS((q3 -> q4)) || @(P(q4))) && q1) && q2)
+Translated:       (((P(H((q3 -> q4))) || @(P(q4))) && q1) && q2)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #61 ──────────────────────────────────────────
+Original formula:  (OAS((q1 S q2)) || (P(P(q2)) S @(@(!q1))))
+Translated:       (P(H((q1 S q2))) || (P(P(q2)) S @(@(!q1))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #62 ──────────────────────────────────────────
+Original formula:  (P(((q1 S q1) S P(q1))) && OAS(@(q1)))
+Translated:       (P(((q1 S q1) S P(q1))) && P(H(@(q1))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #63 ──────────────────────────────────────────
+Original formula:  (P(((!q1 S q2) && (q1 -> q1))) && OAS((q2 S !q2)))
+Translated:       (P(((!q1 S q2) && (q1 -> q1))) && P(H((q2 S !q2))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #64 ──────────────────────────────────────────
+Original formula:  ((@((q3 || q1)) && OAS(@(q1))) && q2)
+Translated:       ((@((q3 || q1)) && P(H(@(q1)))) && q2)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #65 ──────────────────────────────────────────
+Original formula:  ((OAS(P(q1)) || H(H((!q3 || !q3)))) && q2)
+Translated:       ((P(H(P(q1))) || H(H((!q3 || !q3)))) && q2)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #66 ──────────────────────────────────────────
+Original formula:  (OAS((q2 || q1)) || (H(!q1) S P(q1)))
+Translated:       (P(H((q2 || q1))) || (H(!q1) S P(q1)))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #67 ──────────────────────────────────────────
+Original formula:  (@(@(H(q1))) && OAS((q2 S q1)))
+Translated:       (@(@(H(q1))) && P(H((q2 S q1))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #68 ──────────────────────────────────────────
+Original formula:  (@((q1 || q1)) && OAS(P(!q1)))
+Translated:       (@((q1 || q1)) && P(H(P(!q1))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #69 ──────────────────────────────────────────
+Original formula:  (OAS((!q2 S !q2)) || H((@(q2) -> (q3 || q1))))
+Translated:       (P(H((!q2 S !q2))) || H((@(q2) -> (q3 || q1))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #70 ──────────────────────────────────────────
+Original formula:  (OAS((q1 S q1)) || @((@(q1) S H(q1))))
+Translated:       (P(H((q1 S q1))) || @((@(q1) S H(q1))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #71 ──────────────────────────────────────────
+Original formula:  (H(((!q2 || q1) S P(q2))) && OAS(P(!q1)))
+Translated:       (H(((!q2 || q1) S P(q2))) && P(H(P(!q1))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #72 ──────────────────────────────────────────
+Original formula:  (((OAS(H(!q4)) || H(H(q3))) && q1) && q2)
+Translated:       (((P(H(H(!q4))) || H(H(q3))) && q1) && q2)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #73 ──────────────────────────────────────────
+Original formula:  (OAS((q2 S q1)) || ((q2 -> q2) && H(q2)))
+Translated:       (P(H((q2 S q1))) || ((q2 -> q2) && H(q2)))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #74 ──────────────────────────────────────────
+Original formula:  (OAS(@(q1)) || P(P((!q1 && q1))))
+Translated:       (P(H(@(q1))) || P(P((!q1 && q1))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #75 ──────────────────────────────────────────
+Original formula:  ((OAS((!q4 <-> q4)) || (H(q3) S (q2 S !q3))) && q1)
+Translated:       ((P(H((!q4 <-> q4))) || (H(q3) S (q2 S !q3))) && q1)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #76 ──────────────────────────────────────────
+Original formula:  ((OAS(H(q3)) || (P(q2) S @(q3))) && q1)
+Translated:       ((P(H(H(q3))) || (P(q2) S @(q3))) && q1)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #77 ──────────────────────────────────────────
+Original formula:  (H((!q1 S !q1)) && OAS((!q1 && q1)))
+Translated:       (H((!q1 S !q1)) && P(H((!q1 && q1))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #78 ──────────────────────────────────────────
+Original formula:  ((@((q2 S !q1)) <-> H((q1 || q1))) && OAS(P(q2)))
+Translated:       ((@((q2 S !q1)) <-> H((q1 || q1))) && P(H(P(q2))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #79 ──────────────────────────────────────────
+Original formula:  (OAS((q1 S q1)) || (P(q1) S @(!q1)))
+Translated:       (P(H((q1 S q1))) || (P(q1) S @(!q1)))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #80 ──────────────────────────────────────────
+Original formula:  ((OAS(P(q3)) || (((q3 -> q3) S H(q1)) -> @(@(q3)))) && q2)
+Translated:       ((P(H(P(q3))) || (((q3 -> q3) S H(q1)) -> @(@(q3)))) && q2)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #81 ──────────────────────────────────────────
+Original formula:  (((((q3 S q1) && (q3 -> q1)) <-> ((q3 && q1) S @(q3))) && OAS((q3 S q1))) && q2)
+Translated:       (((((q3 S q1) && (q3 -> q1)) <-> ((q3 && q1) S @(q3))) && P(H((q3 S q1)))) && q2)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #82 ──────────────────────────────────────────
+Original formula:  (OAS((q2 S q1)) || @(((!q1 || q2) && P(q1))))
+Translated:       (P(H((q2 S q1))) || @(((!q1 || q2) && P(q1))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #83 ──────────────────────────────────────────
+Original formula:  (OAS((q2 || q1)) || (((q4 S !q2) S H(!q2)) S (@(q3) S (q3 -> !q4))))
+Translated:       (P(H((q2 || q1))) || (((q4 S !q2) S H(!q2)) S (@(q3) S (q3 -> !q4))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #84 ──────────────────────────────────────────
+Original formula:  ((((@(P(q1)) && OAS(@(!q5))) && q2) && q3) && q4)
+Translated:       ((((@(P(q1)) && P(H(@(!q5)))) && q2) && q3) && q4)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #85 ──────────────────────────────────────────
+Original formula:  ((((((q3 S q5) || P(q3)) || ((q4 <-> !q4) || (q4 S q3))) && OAS(H(!q3))) && q1) && q2)
+Translated:       ((((((q3 S q5) || P(q3)) || ((q4 <-> !q4) || (q4 S q3))) && P(H(H(!q3)))) && q1) && q2)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #86 ──────────────────────────────────────────
+Original formula:  (H(P(!q1)) && OAS(H(!q1)))
+Translated:       (H(P(!q1)) && P(H(H(!q1))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #87 ──────────────────────────────────────────
+Original formula:  (((q3 <-> !q1) S (q4 || q3)) && OAS((q4 -> !q2)))
+Translated:       (((q3 <-> !q1) S (q4 || q3)) && P(H((q4 -> !q2))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #88 ──────────────────────────────────────────
+Original formula:  (((OAS(P(q3)) || P((q2 S q5))) && q1) && q4)
+Translated:       (((P(H(P(q3))) || P((q2 S q5))) && q1) && q4)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #89 ──────────────────────────────────────────
+Original formula:  (P(((!q1 S q1) S @(!q1))) && OAS((q1 S q1)))
+Translated:       (P(((!q1 S q1) S @(!q1))) && P(H((q1 S q1))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #90 ──────────────────────────────────────────
+Original formula:  (((OAS((q4 || q1)) || H(@(!q4))) && q2) && q3)
+Translated:       (((P(H((q4 || q1))) || H(@(!q4))) && q2) && q3)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #91 ──────────────────────────────────────────
+Original formula:  ((H((q2 S q2)) && OAS(H(q2))) && q1)
+Translated:       ((H((q2 S q2)) && P(H(H(q2)))) && q1)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #92 ──────────────────────────────────────────
+Original formula:  ((((q1 <-> !q3) S H(q3)) && OAS(H(q3))) && q2)
+Translated:       ((((q1 <-> !q3) S H(q3)) && P(H(H(q3)))) && q2)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #93 ──────────────────────────────────────────
+Original formula:  (OAS((q1 S q1)) || H(P(q1)))
+Translated:       (P(H((q1 S q1))) || H(P(q1)))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #94 ──────────────────────────────────────────
+Original formula:  (OAS((q2 S q1)) || (((!q2 S !q1) -> @(q3)) S (P(q2) S P(q1))))
+Translated:       (P(H((q2 S q1))) || (((!q2 S !q1) -> @(q3)) S (P(q2) S P(q1))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #95 ──────────────────────────────────────────
+Original formula:  (((@((!q3 <-> q5)) && OAS((q1 || q1))) && q2) && q4)
+Translated:       (((@((!q3 <-> q5)) && P(H((q1 || q1)))) && q2) && q4)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #96 ──────────────────────────────────────────
+Original formula:  (((OAS((q3 S q5)) || (@((!q5 || q5)) && @(P(!q4)))) && q1) && q2)
+Translated:       (((P(H((q3 S q5))) || (@((!q5 || q5)) && @(P(!q4)))) && q1) && q2)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #97 ──────────────────────────────────────────
+Original formula:  (((P(q2) <-> (q3 || !q3)) && OAS(@(q4))) && q1)
+Translated:       (((P(q2) <-> (q3 || !q3)) && P(H(@(q4)))) && q1)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #98 ──────────────────────────────────────────
+Original formula:  (H(H(@(q2))) && OAS((!q1 -> q1)))
+Translated:       (H(H(@(q2))) && P(H((!q1 -> q1))))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #99 ──────────────────────────────────────────
+Original formula:  (OAS((q1 S q1)) || ((q1 || q1) S @(!q1)))
+Translated:       (P(H((q1 S q1))) || ((q1 || q1) S @(!q1)))
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+Monitor written to custom_monitor.py
+
+── Test #100 ──────────────────────────────────────────
+Original formula:  ((OAS(P(q2)) || @(H(q2))) && q1)
+Translated:       ((P(H(P(q2))) || @(H(q2))) && q1)
+------------------------------------------------------------
+correct verdicts: 500000 out of 500000
+correct traces: 10000 out of 10000
+
+Result: SUCCESS ✅
+
+============================================================
+   TOTAL SUCCEEDED:  100 / 100
+============================================================
+(llms_env) PS C:\Projects\rv_agent>

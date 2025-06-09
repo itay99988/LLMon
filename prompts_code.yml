@@ -1,0 +1,111 @@
+# prompts_code.yml
+prompts:
+  # ─────────────────────────────────────────────────────────
+  # Produce update code for different interpretations,
+  # And compare between them.
+  # ─────────────────────────────────────────────────────────
+  produce_update_rules_new: |-
+    Below is the name, notation, and natural language description of a temporal operator, which is an extension of past-time LTL:
+    {0}
+    
+    We aim to calculate the boolean value of this operator, given a sequence of assignments to the boolean variables, which are the operand/operands of this operator.
+    Every set of assignments for all operands is considered a single "event". When a new event arrives, we want to update the truth value of the entire operator based the content of that event and previous information.
+    The first received event is considered as the first in the event sequence, and the most recent event is considered as the last in the sequence.
+    
+    Create four different python codes that calculate the truth value of the operator, once a new event arrives. Each code should be based on a slightly different natural language interpretation of the operator description. 
+    Important: The code should update the truth value of the operator in an efficient way. 
+    
+    - You may store any additional values that may help to successfully calculate the truth value.
+    - Number the different codes and clearly explain the interpretation they represent. The explanation should reliably reflect the related code.
+
+
+  create_rules_code: |-
+    {2}
+    Update code number {0} is defined to be the primary code.
+    In addition, {1}
+
+  create_comp_code: |-
+    Generate python code that compares the primary version to all the other versions, based on all the possible traces of length {trace_length}. 
+    When you mention a version, do not forget to also mention its number. 
+    For each pair, the code should print all the distinguishing traces in the order of the comparisons (start with all the distinguishing traces of the first comparison etc.),
+    and for each such trace, print which code version accepts its (final verdict is true) and which one rejects (final verdict is false). 
+    
+    The first line that the script should print is the version name. When a new comparison begins, write a caption that corresponds the comparison.
+    Important: use the following format to display distinguishing sequences: (replace variable_name, boolean values and formula numbers with the actual names and values)
+    "Trace: <variable_name> = (T, T, T); <variable_name> = (T, F, T) => Version 1: True, Version 3: False"
+    If two versions have no distinguishing traces, clearly mention that the two versions are equivalent. Do not use pandas. 
+    
+    The code should be a fenced Python code block, e.g.:
+
+        ```python
+        # code here
+        ```
+
+  analyze_comp_output: |-
+    Consider the different trace comparisons (primary code vs. other code)
+    {traces}
+
+    Analyze these traces, and provide the key differences between the two codes in each comparison. 
+    You can think it through, but eventually provide the following information for each comparison that has at least one distinguishing trace:
+    - key differences as a short description.
+    - what the key difference means for each code (briefly explain).
+    - choose one distinguishing trace that supports the key differences and briefly explain.
+    
+    important: if two versions are equivalent, just mention that the versions are equivalent using the phrase "equivalent versions", and do not write anything else.
+    
+    When you show your analysis, clearly separate between the different comparisons with hyphens (---..).
+
+
+  # ─────────────────────────────────────────────────────────
+  # Output the construct information
+  # ─────────────────────────────────────────────────────────
+  get_op_info_json: |-
+    The user chose version number {0} as the correct version for the operator.
+    For the mentioned temporal‑operator, create a JSON object with exactly these keys:
+
+    \"op_name\": string, # the operator name, as provided by the user.
+    
+    \"op_notation\": string, # only the operator letter/word (for example "P")
+
+    \"op_description\": string,  # according to the chosen operator version.
+    
+    \"is_unary\": boolean,  # True if unary, False otherwise
+    
+    \"class_name\": string, # the name of the class (explained below)
+
+    \"class_content\": string  # Python class implementing the operator
+
+    The class must define:
+    • An __init__ that sets initial auxiliary variables, current verdict and previous verdict.
+    • An update(left, right) method that updates and returns the verdict. make sure to actively update the verdict after every new event. 
+      Try to preserve the code you generated earlier for this version. this function will have one argument for unary operator and two for binary operators.
+
+    Return ONLY the JSON, no markdown fences.
+    
+
+# ─────────────────────────────────────────────────────────
+# Specification Translation:
+# ─────────────────────────────────────────────────────────
+
+  spec_translation: |-
+    Consider the following set of temporal operators:
+    {new_constructs}
+
+    based on these operators and their symbols, translate the following specification into a formula:
+    {nl_spec}
+
+    guidelines:
+    - detect the events in the specification, and turn each event into a boolean variable (q1, q2 etc)
+    - the formula should contain only previously mentioned constructs, the common logical connectives (and, or, not..) and boolean variables.
+    -You are provided with three simple examples :
+    1. natural language: "The robot was at the store at all times."
+    temporal formula:  H(q1)
+    2. natural language: "Whenever the robot is was at the garage, it is not at home."
+    temporal formula:  H(q1 -> !(q2))
+    3. natural language: "In the past, the robot was at home."
+    temporal formula:  P(q1)
+    4. natural language: "the robot was previously at q2, but since then it was always at q1."
+    temporal formula: q1 S q2
+
+    Your final response should contain a json file with two keys. First key- 'var_mapping' - its value is a string that explains the NL event and their associated boolean variables. 
+    Second key - 'formula' - its value should be the translated formula (a formula with boolean variables).
