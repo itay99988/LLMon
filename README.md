@@ -326,7 +326,8 @@ Apache License 2.0 – free to use, modify, and share.
 ---
 
 ## Contributors
-* Itay Cohen - Bar Ilan University, Israel
-* Doron Peled - Bar Ilan University, Israel
-* Klaus Havelund - Jet Propulsion Laboratory/NASA, USA
-* Yoav Goldberg - Bar Ilan University, Israel
+* [Itay Cohen](https://github.com/itay99988) – Bar Ilan University, Israel  
+* [Doron Peled](https://u.cs.biu.ac.il/~peledd/) – Bar Ilan University, Israel  
+* [Klaus Havelund](https://www.havelund.com/) – Jet Propulsion Laboratory/NASA, USA  
+* [Yoav Goldberg](https://u.cs.biu.ac.il/~yogo/) – Bar Ilan University, Israel
+
