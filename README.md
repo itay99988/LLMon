@@ -9,7 +9,7 @@
 LLMon is an interactive research tool that lets you:
 
 * **📝 Describe temporal requirements in plain English** – and get runnable runtime-verification (RV) monitors back.
-* **🍋 Define brand-new temporal constructs on the fly** using natural-language descriptions and rapid ambiguity-resolving workflows.
+* **🍋 Define new temporal constructs on the fly** using natural-language descriptions and ambiguity-resolving workflows.
 * **⚙️ Combine classical RV algorithms with LLM reasoning** to bridge the gap between natural language and formal specifications.
 
 ---
@@ -35,8 +35,7 @@ LLMon is an interactive research tool that lets you:
 
 ## About LLMon
 
-LLMon is the tool used in the paper **“The Power of Reframing: Using LLMs in Synthesizing RV Monitors.”**
-It couples Large Language Models (LLMs) with deterministic monitor-generation code so that ambiguity is handled *with* the user, while all safety-critical synthesis remains pure Python.
+LLMon couples Large Language Models (LLMs) with deterministic monitor-generation code so that ambiguity is handled *with* the user, while all safety-critical synthesis remains pure Python.
 
 > **Screenshots (placeholders)**
 > ![UI shot-1](images/shot1.png)
