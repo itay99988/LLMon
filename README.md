@@ -3,9 +3,8 @@
 [![Python 3.10](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/) [![License Apache-2.0](https://img.shields.io/badge/license-Apache%202.0-green)](LICENSE)
 
 <p align="center">
-  <img src="./images/logo.PNG" alt="LLMon logo" width="280">
+  <img src="./images/logo.PNG" alt="LLMon logo" width="300">
 </p>
-
 LLMon is an interactive research tool that lets you:
 
 * **📝 Describe temporal requirements in plain English** – and get runnable runtime-verification (RV) monitors back.
@@ -24,9 +23,9 @@ LLMon is an interactive research tool that lets you:
    5.1 [Set the OpenAI API key](#set-the-openai-api-key)  
    5.2 [Choose the trace length](#choose-the-trace-length)  
    5.3 [Three interactive stages](#three-interactive-stages)  
-6. [Verifying PT-LTL-Equivalent Operators](#verifying-pt-ltl-equivalent-operators)  
-7. [Verifying Rule-Based Constructs (Beyond PT-LTL)](#verifying-rule-based-constructs-beyond-pt-ltl)  🍋 **NEW**  
-8. [Key Project Files](#key-project-files)  
+6. [Key Project Files](#key-project-files) 
+7. [Verifying PT-LTL-Equivalent Operators](#verifying-pt-ltl-equivalent-operators)  
+8. [Verifying Rule-Based Constructs (Beyond PT-LTL)](#verifying-rule-based-constructs-beyond-pt-ltl)
 9. [Output Artifacts](#output-artifacts)  
 10. [License](#license)
 11.  [Contributors](#contributors)
@@ -37,9 +36,9 @@ LLMon is an interactive research tool that lets you:
 
 LLMon couples Large Language Models (LLMs) with deterministic monitor-generation code so that ambiguity is handled *with* the user, while all safety-critical synthesis remains pure Python.
 
-> **Screenshots (placeholders)**
-> ![UI shot-1](images/shot1.png)
-> ![UI shot-2](images/shot2.png)
+<p align="center">
+<img src="images/scr1.PNG" width="550">
+</p>
 
 ---
 
@@ -56,7 +55,7 @@ LLMon couples Large Language Models (LLMs) with deterministic monitor-generation
 
 * Natural-language constructs creation with automated ambiguity exploration.
 * NL specification → formula conversion *or* direct formula entry.
-* GUI powered by Gradio for smooth, pause-resume interaction.
+* GUI powered by Gradio for smooth interaction.
 * Stores every learnt operator in `operators_data.json` for future sessions.
 * Outputs self-contained Python monitors.
 
@@ -128,7 +127,7 @@ export OPENAI_API_KEY="your-key-here"
 ### Three interactive stages
 
 1. **Extend the logic:** add or refine temporal constructs in plain English.
-2. **Describe the requirement:**
+2. **Describe the specification:**
 
    * Option 1 – natural-language sentence (LLM translates).
    * Option 2 – direct formula (`q1`, `q2`, `S`, `H`, your new operators…).
@@ -136,14 +135,51 @@ export OPENAI_API_KEY="your-key-here"
 
 ---
 
-## Verifying PT-LTL-Equivalent Operators
+## Key Project Files
+
+| File                      | Purpose                                                                             |
+| ------------------------- |-------------------------------------------------------------------------------------|
+| **`prompts_code.yml`**    | All system prompts used to steer the LLM at each step. Edit to customise behaviour. |
+| **`operators_data.json`** | Knowledge-base of every construct LLMon has learnt. Must live in the project root.  |
+
+
+Example snippet of `operators_data.json`:
+```json
+[{
+    "op_name": "False Before",
+    "op_notation": "falsebefore",
+    "op_description": "This operator checks if q2 holds now, then q1 was never true in any past event.",
+    "is_unary": false,
+    "class_name": "FalseBeforeCumulative",
+    "class_content": "class FalseBeforeCumulative:\n    ...  # Python update rule here"
+  },
+  {
+    "op_name": "Once at Start",
+    "op_notation": "OAS",
+    "op_description": "OAS(q1) holds if 'q1' was true continuously from the start for at least one timestep.",
+    "is_unary": true,
+    "class_name": "OAS_Interpretation2",
+    "class_content": "class OAS_Interpretation2:\n    ...  # Python update rule here"
+  }]
+```
+
+Fields:
+
+* `op_name`, `op_notation` – human & symbolic names
+* `op_description` – NL semantics
+* `is_unary` – operator arity
+* `class_name`, `class_content` – Python code implementing the update rule
+
+---
+
+## Verifying PT-LTL-Equivalent Operators 
 
 ### What happens behind the scenes 🍋
 1. **Expansion** – every custom construct \(𝒪\) is replaced by its *past-time LTL* equivalence template that uses only the basic PT-LTL operators `@  P  H  S`.  
-2. **Dual monitor synthesis** – LLMon builds two monitors:  
+2. **Dual monitor synthesis** – two monitors are built:  
    * one for the *original* formula (with \(𝒪\)),  
    * one for the *expanded* formula (without \(𝒪\)).  
-3. **Exhaustive comparison** – `compare_monitors.py` runs **10 000 random traces** and checks verdict-by-verdict equality. A 100 % match gives high confidence that the operator’s update rule is correct.
+3. **Exhaustive comparison** – `compare_monitors.py` runs **10 000 random traces** and checks verdict-by-verdict equality. A 100% match gives high confidence that the operator’s update rule is correct.
 
 ---
 
@@ -160,30 +196,32 @@ python batch_formula_tester.py --new-op PTH --equiv "@(H({arg}))"
 ```
 
 
-| CLI flag   | Meaning                                                                                                                                                        |
-| ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--new-op` | Token of the construct under test (e.g. `PTH`).                                                                                                                |
-| `--equiv`  | **Past-time LTL template** that replaces the construct. <br>• **Unary** templates use **`{arg}`**.<br>• **Binary** templates use **`{left}`** & **`{right}`**. |
+| CLI flag   | Meaning                                                                                                                                                                                                     |
+| ---------- |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `--new-op` | Symbol of the construct under test (e.g. `PTH`).                                                                                                                                                            |
+| `--equiv`  | **Past-time LTL template** that replaces the construct. <br>• **Unary** templates use **`{arg}`**.<br>• **Binary** templates use **`{left}`** & **`{right}`**. <br>• Unary template example → @(H({arg}))  <br>• Binary template example → ({left}) S ({right}) |
 
-Unary template example → @(H({arg}))
 
-Binary template example → ({left}) S ({right})
+
+
 
 ### Ready-to-run examples for all constructs in the paper
-| Construct                      | Notation   | NL description (abridged)                                     | PT-LTL equivalence template                                                       | One-liner                                                                                                  |
-| ------------------------------ | ---------- | ------------------------------------------------------------- | --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| **weak since**                 | `q₁ WS q₂` | `q₁` holds since the last `q₂` (or from start if `q₂` never). | `(({left}) S ({right})) \|\| H(({left}))`                                         | `python batch\_formula\_tester.py --new-op WS --equiv "(({left}) S ({right}))`                              |
-| **previous-time historically** | `PTH(q)`   | `q` held from start until one step before now.                | `@(H({arg}))`                                                                     | `python batch_formula_tester.py --new-op PTH --equiv "@(H({arg}))"`                                        |
-| **value alternation**          | `VA(q)`    | `q` flips every step.                                         | `H(@(({arg})<->({arg})) -> (({arg}) <-> (@(!({arg})))))`                          | `python batch_formula_tester.py --new-op VA --equiv "H(@(({arg})<->({arg})) -> (({arg}) <-> (@(!({arg})))))"` |
-| **consistent Boolean value**   | `CBA(q)`   | `q` never changes.                                            | `(H({arg}) \|\| H(!({arg})))`                                                     | `python batch\_formula\_tester.py --new-op CBA --equiv "(H({arg})`                                          |
-| **never**                      | `N(q)`     | `q` never holds.                                              | `H(!({arg}))`                                                                     | `python batch_formula_tester.py --new-op N --equiv "(H(!({arg})))"`                                        |
-| **happened before**            | `q₁ HB q₂` | If `q₂` now, then `q₁` happened earlier.                      | `H(({right}) -> P(({left})))`                                                     | `python batch_formula_tester.py --new-op HB --equiv "(H(({right}) -> P(({left}))))"`                       |
-| **false since**                | `q₂ FS q₁` | After `q₁`, `q₂` has been false.                              | `P(({right})) -> (!({left}) S ({right}))`                                         | `python batch_formula_tester.py --new-op FS --equiv "P(({right})) -> (!({left}) S ({right}))"`             |
-| **false before**               | `q₁ FB q₂` | Before latest `q₂`, `q₁` always false.                        | `{right} -> H(!({left}))`                                                         | `python batch_formula_tester.py --new-op falsebefore --equiv "{right} -> (H(!({left})))"`                  |
-| **once at start**              | `OAS(q)`   | `q` happened at least once since start.                       | `P(H({arg}))`                                                                     | `python batch_formula_tester.py --new-op OAS --equiv "P(H({arg}))"`                                        |
-| **changes only once**          | `COO(q)`   | `q` flips exactly once.                                       | `(({arg}) && (({arg}) S H(!({arg})))) \|\| (!({arg}) && (!({arg}) S H(({arg}))))` | `python batch\_formula\_tester.py --new-op COO --equiv "(({arg}) && (({arg}) S H(!({arg}))))`              |
+Here, `H` means "historically", `P` means "once in the past", `@` means "previous-time" and `S` means "since".
 
-### Helper scripts inside past_ltl_operators_experiments/
+| Construct                      | Notation   | NL description (abridged)                                     | PT-LTL equivalence template                                                       | One-liner                                                                                                 |
+| ------------------------------ | ---------- | ------------------------------------------------------------- |-----------------------------------------------------------------------------------| --------------------------------------------------------------------------------------------------------- |
+| **weak since**                 | `q₁ WS q₂` | `q₁` holds since the last `q₂` (or from start if `q₂` never). | `(q1 S q2) \|\| H(q1)`                                                            | `python .\batch_formula_tester.py --new-op WS --equiv "(({left}) S ({right})) \|\| H(({left}))"`                              |
+| **previous-time historically** | `PTH(q)`   | `q` held from start until one step before now.                | `@H(q1)`                                                                          | `python .\batch_formula_tester.py --new-op PTH --equiv "@(H({arg}))"`                                       |
+| **value alternation**          | `VA(q)`    | `q` flips every step.                                         | `H(@(q1<->q1) -> (q1 <-> (@(!q1))))`                          | `python .\batch_formula_tester.py --new-op VA --equiv "H(@(({arg})<->({arg})) -> (({arg}) <-> (@(!({arg})))))"` |
+| **consistent Boolean value**   | `CBA(q)`   | `q` never changes.                                            | `H(q1) \|\| H(!q1)`                                                     | `python .\batch_formula_tester.py --new-op CBA --equiv "(H({arg}) \|\| H(!({arg})))"`                                         |
+| **never**                      | `N(q)`     | `q` never holds.                                              | `H(!q1)`                                                                     | `python .\batch_formula_tester.py --new-op N --equiv "(H(!({arg})))"`                                       |
+| **happened before**            | `q₁ HB q₂` | If `q₂` now, then `q₁` happened earlier.                      | `H(q2 -> P(q1))`                                                     | `python .\batch_formula_tester.py --new-op HB --equiv "(H(({right}) -> P(({left}))))"`                      |
+| **false since**                | `q₂ FS q₁` | After `q₁`, `q₂` has been false.                              | `P(q1) -> (!q2 S q1)`                                         | `python .\batch_formula_tester.py --new-op FS --equiv "P(({right})) -> (!({left}) S ({right}))"`            |
+| **false before**               | `q₁ FB q₂` | Before latest `q₂`, `q₁` always false.                        | `q2->H(!q1)`                                                         | `python .\batch_formula_tester.py --new-op falsebefore --equiv "{right} -> (H(!({left})))"`                 |
+| **once at start**              | `OAS(q)`   | `q` happened at least once since start.                       | `P(H(q1))`                                                                     | `python .\batch_formula_tester.py --new-op OAS --equiv "P(H({arg}))"`                                       |
+| **changes only once**          | `COO(q)`   | `q` flips exactly once.                                       | `(q1 && (q1 S H(!q1))) \|\| (!q1 && (!q1 S H(q1)))` | `python .\batch_formula_tester.py --new-op COO --equiv "(({arg}) && (({arg}) S H(!({arg})))) \|\| (!({arg}) && (!({arg}) S H(({arg}))))"`             |
+
+### Helper scripts inside `past_ltl_operators_experiments/`
 
 * syntax_translator.py – expands templates by replacing {arg}, {left}, {right}.
 
@@ -255,45 +293,24 @@ variable evolves**:
 
 * **`var_name`** – the auxiliary symbol.
 * **`transition_rule`** – update rule in the form
-  `next(<var>) := <Boolean expression involving existing vars>`.
+  `next(<var>) := <Past-time LTL expression involving existing vars>`.
 
-In the ODD example the rule toggles `a1` every step;
+In the `ODD` example the rule toggles `a1` every step;
 the equivalence template `H((a1) -> {arg})` therefore means:
 
 > “`{arg}` must hold on every **odd** step (when `a1` is `True`).”
 
 ---
 
-> **Helper scripts inside `rules_experiments/`**  
-> * `recursive_aux_var.py` – runtime support for **recursive auxiliary variables**.  
->   Implements the `RecursiveAuxVar` class, which evaluates self-referential
->   transition rules such as `next(a1) := !a1`.  
->   Internally it contains a light-weight parser / evaluator for past-time LTL
->   so the variable can update itself every step.  
-> * `syntax_translator.py` – fills the placeholders (`{arg}`, `{left}`, `{right}`, `a1`, …) in the PT-LTL template.  
-> * `compare_monitors.py` – checks verdict-by-verdict equality on 10 000 random traces.  
-> * `batch_formula_tester.py` – generates 100 random formulas with the target operator and orchestrates the full test run.
----
-
-## Key Project Files
-
-| File                      | Purpose                                                                             |
-| ------------------------- | ----------------------------------------------------------------------------------- |
-| **`prompts_code.yml`**    | All system prompts used to steer the LLM at each step. Edit to customise behaviour. |
-| **`operators_data.json`** | Knowledge-base of every operator LLMon has learnt. Must live in the project root.   |
-
-
-
-
-Example snippet:&#x20;
-
-Fields
-
-* `op_name`, `op_notation` – human & symbolic names
-* `op_description` – NL semantics
-* `is_unary` – operator arity
-* `class_name`, `class_content` – Python code implementing the update rule
-
+### Helper scripts inside `rules_experiments/`  
+* `recursive_aux_var.py` – runtime support for **recursive auxiliary variables**.  
+Implements the `RecursiveAuxVar` class, which evaluates self-referential
+transition rules such as `next(a1) := !a1`.  
+Internally it contains a light-weight parser / evaluator for past-time LTL
+so the variable can update itself every step.  
+* `syntax_translator.py` – fills the placeholders (`{arg}`, `{left}`, `{right}`, `a1`, …) in the PT-LTL template.  
+* `compare_monitors.py` – checks verdict-by-verdict equality on 10 000 random traces.  
+* `batch_formula_tester.py` – generates 100 random formulas with the target operator and orchestrates the full test run.
 ---
 
 ## Output Artifacts
