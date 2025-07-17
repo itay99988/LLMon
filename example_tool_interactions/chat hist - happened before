@@ -1,0 +1,205 @@
+=============================================
+🌀  Conversational Agent Demo                 
+=============================================
+
+Running *construct differentiation* workflow
+
+Welcome!
+ Please provide a new temporal‑operator description (name, notation, natural‑language semantics) and I will suggest some interpretations for it.
+
+name: q1 happened before q2. notation: q1 R q2. description: at any given timestep it is true that if 'q2' holds, 'q1' happened before that (or at the same timestep).
+Certainly! Below are four different Python codes, each based on a slightly different interpretation of the temporal operator "q1 happened before q2" (q1 R q2). Each code efficiently updates the truth value of the operator when a new event arrives.
+
+### Code 1: Strict Interpretation
+In this interpretation, q1 must occur strictly before q2 for the operator to be true.
+
+```python
+class TemporalOperator1:
+    def __init__(self):
+        self.q1_occurred = False
+        self.operator_truth = True
+
+    def update(self, q1, q2):
+        if q2:
+            if not self.q1_occurred:
+                self.operator_truth = False
+        if q1:
+            self.q1_occurred = True
+        return self.operator_truth
+
+# Example usage:
+# operator = TemporalOperator1()
+# print(operator.update(q1=False, q2=True))  # False, because q1 did not occur before q2
+```
+
+### Code 2: Non-Strict Interpretation
+In this interpretation, q1 can occur at the same timestep as q2 for the operator to be true.
+
+```python
+class TemporalOperator2:
+    def __init__(self):
+        self.q1_occurred = False
+        self.operator_truth = True
+
+    def update(self, q1, q2):
+        if q2:
+            if not self.q1_occurred and not q1:
+                self.operator_truth = False
+        if q1:
+            self.q1_occurred = True
+        return self.operator_truth
+
+# Example usage:
+# operator = TemporalOperator2()
+# print(operator.update(q1=False, q2=True))  # False, because q1 did not occur before or at the same time as q2
+```
+
+### Code 3: Reset on q2
+In this interpretation, if q2 occurs without q1 having occurred before, the operator resets and waits for a new sequence.
+
+```python
+class TemporalOperator3:
+    def __init__(self):
+        self.q1_occurred = False
+        self.operator_truth = True
+
+    def update(self, q1, q2):
+        if q2:
+            if not self.q1_occurred:
+                self.operator_truth = False
+                self.q1_occurred = False  # Reset
+            else:
+                self.q1_occurred = False  # Reset after successful q2
+        if q1:
+            self.q1_occurred = True
+        return self.operator_truth
+
+# Example usage:
+# operator = TemporalOperator3()
+# print(operator.update(q1=False, q2=True))  # False, because q1 did not occur before q2
+```
+
+### Code 4: Continuous Monitoring
+In this interpretation, the operator continuously checks for q1 before any q2 and maintains the truth value accordingly.
+
+```python
+class TemporalOperator4:
+    def __init__(self):
+        self.q1_occurred = False
+        self.operator_truth = True
+
+    def update(self, q1, q2):
+        if q2:
+            if not self.q1_occurred:
+                self.operator_truth = False
+        if q1:
+            self.q1_occurred = True
+        return self.operator_truth
+
+# Example usage:
+# operator = TemporalOperator4()
+# print(operator.update(q1=False, q2=True))  # False, because q1 did not occur before q2
+```
+
+Each code snippet provides a different interpretation of the "q1 happened before q2" operator, allowing you to choose the one that best fits your specific requirements.
+
+
+Please choose a primary update rule that will be compared to all the others. Enter 1, 2, 3, or 4 →
+2
+
+
+ If there are formulas that you wish to ignore, specify them now. 
+ Otherwise press 'enter'→
+
+ You can ignore version 4.
+
+
+
+⇢ Simulation code extracted.
+Differentiation analysis:
+
+Version 2: Non-Strict Interpretation (Primary Code)
+
+Comparison: Version 2 vs Version 1
+Trace: q1 = (F, F, T); q2 = (F, F, T) => Version 1: False, Version 2: True
+Trace: q1 = (F, T, F); q2 = (F, T, F) => Version 1: False, Version 2: True
+Trace: q1 = (F, T, F); q2 = (F, T, T) => Version 1: False, Version 2: True
+Trace: q1 = (F, T, T); q2 = (F, T, F) => Version 1: False, Version 2: True
+Trace: q1 = (F, T, T); q2 = (F, T, T) => Version 1: False, Version 2: True
+Trace: q1 = (T, F, F); q2 = (T, F, F) => Version 1: False, Version 2: True
+Trace: q1 = (T, F, F); q2 = (T, F, T) => Version 1: False, Version 2: True
+Trace: q1 = (T, F, T); q2 = (T, F, F) => Version 1: False, Version 2: True
+Trace: q1 = (T, F, T); q2 = (T, F, T) => Version 1: False, Version 2: True
+Trace: q1 = (T, F, F); q2 = (T, T, F) => Version 1: False, Version 2: True
+Trace: q1 = (T, F, F); q2 = (T, T, T) => Version 1: False, Version 2: True
+Trace: q1 = (T, F, T); q2 = (T, T, F) => Version 1: False, Version 2: True
+Trace: q1 = (T, F, T); q2 = (T, T, T) => Version 1: False, Version 2: True
+Trace: q1 = (T, T, F); q2 = (T, F, F) => Version 1: False, Version 2: True
+Trace: q1 = (T, T, F); q2 = (T, F, T) => Version 1: False, Version 2: True
+Trace: q1 = (T, T, T); q2 = (T, F, F) => Version 1: False, Version 2: True
+Trace: q1 = (T, T, T); q2 = (T, F, T) => Version 1: False, Version 2: True
+Trace: q1 = (T, T, F); q2 = (T, T, F) => Version 1: False, Version 2: True
+Trace: q1 = (T, T, F); q2 = (T, T, T) => Version 1: False, Version 2: True
+Trace: q1 = (T, T, T); q2 = (T, T, F) => Version 1: False, Version 2: True
+Trace: q1 = (T, T, T); q2 = (T, T, T) => Version 1: False, Version 2: True
+
+Comparison: Version 2 vs Version 3
+Trace: q1 = (F, F, T); q2 = (F, F, T) => Version 2: True, Version 3: False
+Trace: q1 = (F, T, F); q2 = (F, T, F) => Version 2: True, Version 3: False
+Trace: q1 = (F, T, F); q2 = (F, T, T) => Version 2: True, Version 3: False
+Trace: q1 = (F, T, T); q2 = (F, T, F) => Version 2: True, Version 3: False
+Trace: q1 = (F, T, T); q2 = (F, T, T) => Version 2: True, Version 3: False
+Trace: q1 = (T, F, F); q2 = (F, T, T) => Version 2: True, Version 3: False
+Trace: q1 = (T, F, T); q2 = (F, T, T) => Version 2: True, Version 3: False
+Trace: q1 = (T, F, F); q2 = (T, F, F) => Version 2: True, Version 3: False
+Trace: q1 = (T, F, F); q2 = (T, F, T) => Version 2: True, Version 3: False
+Trace: q1 = (T, F, T); q2 = (T, F, F) => Version 2: True, Version 3: False
+Trace: q1 = (T, F, T); q2 = (T, F, T) => Version 2: True, Version 3: False
+Trace: q1 = (T, F, F); q2 = (T, T, F) => Version 2: True, Version 3: False
+Trace: q1 = (T, F, F); q2 = (T, T, T) => Version 2: True, Version 3: False
+Trace: q1 = (T, F, T); q2 = (T, T, F) => Version 2: True, Version 3: False
+Trace: q1 = (T, F, T); q2 = (T, T, T) => Version 2: True, Version 3: False
+Trace: q1 = (T, T, F); q2 = (T, F, F) => Version 2: True, Version 3: False
+Trace: q1 = (T, T, F); q2 = (T, F, T) => Version 2: True, Version 3: False
+Trace: q1 = (T, T, T); q2 = (T, F, F) => Version 2: True, Version 3: False
+Trace: q1 = (T, T, T); q2 = (T, F, T) => Version 2: True, Version 3: False
+Trace: q1 = (T, T, F); q2 = (T, T, F) => Version 2: True, Version 3: False
+Trace: q1 = (T, T, F); q2 = (T, T, T) => Version 2: True, Version 3: False
+Trace: q1 = (T, T, T); q2 = (T, T, F) => Version 2: True, Version 3: False
+Trace: q1 = (T, T, T); q2 = (T, T, T) => Version 2: True, Version 3: False
+Let's analyze the distinguishing traces and provide key differences between the primary code (Version 2) and the other versions (Version 1 and Version 3) for each comparison.
+
+### Comparison: Version 2 vs Version 1
+
+#### Key Differences:
+- **Strict vs. Non-Strict Interpretation**: Version 1 requires `q1` to occur strictly before `q2` for the operator to be true, while Version 2 allows `q1` to occur at the same timestep as `q2`.
+
+#### What the Key Difference Means:
+- **Version 1**: The operator is false if `q2` occurs without `q1` having occurred strictly before it. This means that even if `q1` and `q2` occur simultaneously, the operator will be false.
+- **Version 2**: The operator is true if `q1` occurs at the same timestep as `q2`, allowing more flexibility in satisfying the condition.
+
+#### Supporting Distinguishing Trace:
+- **Trace**: `q1 = (F, F, T); q2 = (F, F, T)`
+  - **Explanation**: In this trace, `q1` and `q2` both occur at the last timestep. Version 1 evaluates this as false because `q1` did not occur strictly before `q2`. Version 2 evaluates this as true because `q1` occurs at the same timestep as `q2`, which is acceptable in the non-strict interpretation.
+
+### Comparison: Version 2 vs Version 3
+
+#### Key Differences:
+- **Reset Behavior**: Version 3 resets the occurrence of `q1` after `q2` occurs, while Version 2 maintains the state of `q1` even after `q2` occurs.
+
+#### What the Key Difference Means:
+- **Version 2**: Once `q1` has occurred, it remains valid for any subsequent `q2` occurrences, as long as `q1` occurs at or before `q2`.
+- **Version 3**: If `q2` occurs without `q1` having occurred before, the operator resets, and `q1` must occur again before any future `q2` for the operator to be true.
+
+#### Supporting Distinguishing Trace:
+- **Trace**: `q1 = (T, F, F); q2 = (F, T, T)`
+  - **Explanation**: In this trace, `q1` occurs at the first timestep, and `q2` occurs at the second and third timesteps. Version 2 evaluates this as true because `q1` occurred before `q2` at the second timestep, and it remains valid for the third timestep. Version 3 evaluates this as false because after the first `q2` occurrence without a preceding `q1`, it resets and requires `q1` to occur again before the next `q2`.
+
+These analyses highlight the fundamental differences in how each version interprets the temporal relationship between `q1` and `q2`, affecting their evaluation of the operator's truth value.
+
+Which version do you want to adopt? (enter a version number) → 2
+✅ Operator packaged successfully!
+chosen operator interpretation: {'operator_name': 'q1 happened before q2', 'operator_notation': 'q1 R q2', 'operator_description': "At any given timestep, it is true that if 'q2' holds, 'q1' happened before or at the same timestep.", 'operator_code': "class TemporalOperator2:\n    def __init__(self):\n        self.q1_occurred = False\n        self.operator_truth = True\n\n    def update(self, event: dict[str, bool]):\n        q1 = event.get('q1', False)\n        q2 = event.get('q2', False)\n        if q2:\n            if not self.q1_occurred and not q1:\n                self.operator_truth = False\n        if q1:\n            self.q1_occurred = True\n        return self.operator_truth"}
+Workflow finished — goodbye!
+
+Process finished with exit code 0
