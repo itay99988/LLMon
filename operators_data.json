@@ -13,7 +13,7 @@
     "op_description": "q1 is true one step before the most recent event.",
     "is_unary": true,
     "class_name": "PreviousTime",
-    "class_content": "class PreviousTime:\n    \"\"\"@  –  truth value one step ago\"\"\"\n    def __init__(self):\n        self.prev = False\n        self.first = True\n\n    def update(self, operand):\n        out = False if self.first else self.prev\n        self.first = False\n        self.prev = operand\n        return out"
+    "class_content": "class PreviousTime:\n    def __init__(self):\n        self.current_verdict = False\n        self._has_prev = 0\n        self._prev = False\n\n    def update(self, operand):\n        if self._has_prev == 0:\n            self.current_verdict = False\n            self._has_prev = 1\n        else:\n            self.current_verdict = self._prev\n        self._prev = operand\n        return self.current_verdict\n"
   },
   {
     "op_name": "Historically",
@@ -53,12 +53,12 @@
     "op_description": "The operator is true if the value of q1 changes exactly once at any point in the sequence, regardless of the initial value.",
     "is_unary": true,
     "class_name": "COO_Interpretation3",
-    "class_content": "class COO_Interpretation3:\n    def __init__(self):\n        self.change_count = 0\n        self.previous_value = None\n        self.truth_value = False\n\n    def update(self, event):\n        if self.previous_value is None:\n            self.previous_value = event\n        elif event != self.previous_value:\n            self.change_count += 1\n            self.previous_value = event\n\n        self.truth_value = (self.change_count == 1)\n        return self.truth_value"
+    "class_content": "class COO_Interpretation3:\n    def __init__(self):\n        self.truth_value = False\n        self._phase = 0  # 0=no prev yet, 1=seen prev/no change, 2=changed once, 3=changed >=2\n        self._prev_value = False\n\n    def update(self, event):\n        if self._phase == 0:\n            self._prev_value = event\n            self._phase = 1\n        else:\n            if event != self._prev_value:\n                if self._phase == 1:\n                    self._phase = 2\n                elif self._phase == 2:\n                    self._phase = 3\n                self._prev_value = event\n        self.truth_value = (self._phase == 2)\n        return self.truth_value\n"
   },
   {
     "op_name": "consistent boolean value",
-    "op_notation": "CBA",
-    "op_description": "CBA(q1) equals 'true' if the value of 'q1' is the same across all timesteps, and 'false' otherwise.",
+    "op_notation": "CBV",
+    "op_description": "CBV(q1) equals 'true' if the value of 'q1' is the same across all timesteps, and 'false' otherwise.",
     "is_unary": true,
     "class_name": "CBA_StrictConsistency",
     "class_content": "class CBA_StrictConsistency:\n    def __init__(self):\n        self.consistent = True\n        self.first_value = None\n\n    def update(self, arg) -> bool:\n        if self.first_value is None:\n            self.first_value = arg\n        elif arg != self.first_value:\n            self.consistent = False\n\n        return self.consistent"
@@ -85,7 +85,7 @@
     "op_description": "'q1' has been true continuously from the beginning of the execution until one step before the most recent event",
     "is_unary": true,
     "class_name": "PHOperator1",
-    "class_content": "class PHOperator1:\n    def __init__(self):\n        self.ph_value = True  # Assume true until proven otherwise\n        self.previous_events = []  # Store previous events\n\n    def update(self, event):\n        q1 = event\n        if len(self.previous_events) == 0:\n            self.previous_events.append(q1)\n            return False\n        if len(self.previous_events) > 0 and not self.previous_events[-1]:\n            self.ph_value = False\n        self.previous_events.append(q1)\n        return self.ph_value"
+    "class_content": "class PHOperator1:\n    def __init__(self):\n        self.current_verdict = False\n        self.ph_value = True\n        self._has_prev = 0\n        self._prev_q1 = False\n\n    def update(self, event):\n        q1 = event\n        if self._has_prev == 0:\n            self.current_verdict = False\n            self._has_prev = 1\n            self._prev_q1 = q1\n            return self.current_verdict\n        if not self._prev_q1:\n            self.ph_value = False\n        self._prev_q1 = q1\n        self.current_verdict = self.ph_value\n        return self.current_verdict\n"
   },
   {
     "op_name": "value alternation",
@@ -98,7 +98,7 @@
   {
     "op_name": "weak since",
     "op_notation": "WS",
-    "op_description": "'q1' has been true since 'q2' was last true. If 'q2' was never true, then 'a' must be true for the entire sequence.",
+    "op_description": "'q1' has been true since 'q2' was last true. If 'q2' was never true, then 'q1' must be true for the entire sequence.",
     "is_unary": false,
     "class_name": "WeakSinceStrict",
     "class_content": "class WeakSinceStrict:\n    def __init__(self):\n        self.q2_last_true_index = -1\n        self.q1_since_q2 = True\n\n    def update(self, left, right):\n        q1 = left\n        q2 = right\n        if q2:\n            self.q2_last_true_index = 0\n            self.q1_since_q2 = True\n        elif self.q2_last_true_index != -1:\n            self.q1_since_q2 = self.q1_since_q2 and q1\n        else:\n            self.q1_since_q2 = self.q1_since_q2 and q1\n\n        return self.q1_since_q2"
@@ -117,7 +117,7 @@
     "op_description": "\"q1\" holds at all odd timesteps.",
     "is_unary": true,
     "class_name": "HoldsOddAll",
-    "class_content": "class HoldsOddAll:\n    def __init__(self):\n        self.truth_value = True\n        self.current_timestep = 0\n\n    def update(self, q1):\n        self.current_timestep += 1\n        if self.current_timestep % 2 == 1:  # Check only odd timesteps\n            if not q1:\n                self.truth_value = False\n        return self.truth_value"
+    "class_content": "class HoldsOddAll:\n    def __init__(self):\n        self.truth_value = True\n        self._parity = 0  # in {0,1}\n\n    def update(self, q1):\n        self._parity ^= 1  # toggles each event\n        if self._parity == 1:\n            if not q1:\n                self.truth_value = False\n        return self.truth_value\n"
   },
   {
     "op_name": "bythrees",
@@ -125,7 +125,7 @@
     "op_description": "'q1' holds at some timestep divisible by 3, starting from the first event.",
     "is_unary": true,
     "class_name": "OnceThree1",
-    "class_content": "class OnceThree1:\n    def __init__(self):\n        self.truth_value = False\n        self.event_count = 0\n\n    def update(self, q1):\n        self.event_count += 1\n        if self.event_count % 3 == 0 and q1:\n            self.truth_value = True\n        return self.truth_value"
+    "class_content": "class OnceThree1:\n    def __init__(self):\n        self.truth_value = False\n        self._mod3 = 0  # in {0,1,2}\n\n    def update(self, q1):\n        self._mod3 = (self._mod3 + 1) % 3\n        if self._mod3 == 0 and q1:\n            self.truth_value = True\n        return self.truth_value\n"
   },
   {
     "op_name": "consistent odd and once even",
@@ -133,6 +133,6 @@
     "op_description": "'q1' has the same value at all odd timesteps, and holds in at least one even timestep.",
     "is_unary": true,
     "class_name": "COOE_Operator_1",
-    "class_content": "class COOE_Operator_1:\n    def __init__(self):\n        self.odd_value = None\n        self.even_true_found = False\n        self.is_consistent = True\n        self.event_count = 0\n        self.current_verdict = False\n\n    def update(self, q1):\n        self.event_count += 1\n        if self.event_count % 2 == 1:  # Odd timestep\n            if self.odd_value is None:\n                self.odd_value = q1\n            elif self.odd_value != q1:\n                self.is_consistent = False\n        else:  # Even timestep\n            if q1:\n                self.even_true_found = True\n        self.current_verdict = self.is_consistent and self.even_true_found\n        return self.current_verdict\n"
+    "class_content": "class COOE_Operator_1:\n    def __init__(self):\n        self.current_verdict = False\n        self.odd_value = False\n        self.has_odd_value = 0\n        self.even_true_found = False\n        self.is_consistent = True\n        self.parity = 0\n\n    def update(self, q1):\n        self.parity ^= 1\n        if self.parity == 1:\n            if self.has_odd_value == 0:\n                self.odd_value = q1\n                self.has_odd_value = 1\n            elif self.odd_value != q1:\n                self.is_consistent = False\n        else:\n            if q1:\n                self.even_true_found = True\n        self.current_verdict = self.is_consistent and self.even_true_found\n        return self.current_verdict\n"
   }
 ]

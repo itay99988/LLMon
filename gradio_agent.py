@@ -11,6 +11,7 @@ from __future__ import annotations
 import gradio as gr
 from formalism_translation import *
 import sys, argparse
+from chat import ChatGpt5
 
 # ───────────────────────────────────────────────────────────────
 #  A tiny signal that means: “the agent needs user input now”
@@ -72,7 +73,7 @@ class AgentRunner:
     def __init__(self, ctx: Context):
         self.io = GradioIOHandler()
         prompts = PromptLibrary("prompts_code.yml")
-        chat = Chat(model="gpt-4o", temperature=0.1)
+        chat = ChatGpt5(model="gpt-5", temperature=1)
         wf = build_construct_validator(chat, self.io, prompts)
 
         self.ctx = ctx  # ← use the injected context

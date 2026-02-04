@@ -1,4 +1,4 @@
-from workflow import *
+﻿from workflow import *
 from pathlib import Path
 import json, textwrap
 from monitor_generator import make_monitor_code, gen_save_monitor_code
@@ -186,27 +186,144 @@ class AltCodeCompareState(BaseState):
 
 # ── run comparison code, collect distinguishing traces, and have LLM analysis ───────────────
 class CodeEvalState(BaseState):
-    """Run comparison code, show its stdout, let the LLM analyze the output, and ask for user's decision.
-    """
+    """Run comparison code, show its stdout, let the LLM analyze the output, and ask for user's decision."""
 
     name = "CODE_EVAL"
     _JSON_RE = re.compile(r"\{[^{}]+\}", re.S)
+    _TRACE_RE = re.compile(r"^Trace:\s*(.+?)=>\s*(.+)$")
+    _PROP_RE = re.compile(r"^(.+?)\s*=\s*\((.+)\)$")
+    _VERSION_RE = re.compile(r"Version\s+([A-Za-z0-9_-]+)\s*:\s*(True|False)", re.I)
+    _COLORS = ["#f29f67", "#6cc4a1", "#6aa3d9", "#f2c44f", "#c78bd6", "#f07b7b"]
+    _STYLES = {
+        "chunk": "display:flex;flex-direction:column;gap:8px;margin:8px 0;",
+        "vis": "display:inline-flex;align-items:flex-start;gap:8px;max-width:100%;overflow-x:auto;padding-bottom:2px;flex-wrap:nowrap;",
+        "steps": "display:flex;align-items:center;gap:8px;flex-wrap:nowrap;",
+        "ellipse": "min-width:120px;height:64px;padding:4px 12px;border-radius:999px;border:2px solid #2f3a41;background:#f9fbfc;display:flex;align-items:center;justify-content:center;",
+        "props": "display:flex;flex-wrap:wrap;gap:4px;align-items:center;justify-content:center;",
+        "pill": "display:inline-flex;align-items:center;justify-content:center;border-radius:999px;font-size:0.8rem;font-weight:600;color:#1f2a32;border:2px solid rgba(31,42,50,0.25);padding:0 12px;height:26px;min-width:48px;",
+        "pill_false": "background:#c7cdd3;color:#3e4a54;",
+        "acceptance": "height:64px;padding:6px 10px;border-radius:16px;background:transparent;display:flex;flex-direction:row;align-items:center;gap:10px;align-self:flex-start;",
+        "status": "display:flex;align-items:center;justify-content:space-between;gap:10px;height:30px;padding:0 15px;border-radius:12px;background:rgba(31,42,50,0.08);white-space:nowrap;font-size:0.9rem;",
+        "badge_accept": "padding:3px 8px;border-radius:999px;font-weight:600;color:#fff;background:#2f9d68;font-size:0.87rem;",
+        "badge_reject": "padding:3px 8px;border-radius:999px;font-weight:600;color:#fff;background:#cf3d2e;font-size:0.87rem;",
+        "details": "margin:4px 0 0 0;",
+        "summary": "cursor:pointer;color:#e1e4e6;font-size:1rem;",
+        "stack": "display:flex;flex-direction:column;gap:8px;margin-top:6px;",
+        "fallback": "background:rgba(207,61,46,0.08);border:1px solid rgba(207,61,46,0.35);border-radius:10px;padding:8px 10px;",
+    }
+    _ARROW_SVG = (
+        "<svg width='44' height='12' aria-hidden='true' style='flex:0 0 auto;margin:0 -8px;'>"
+        "<line x1='0' y1='6' x2='28' y2='6' stroke='#d6dbe0' stroke-width='2.5' />"
+        "<polygon points='28,0 44,6 28,12' fill='#d6dbe0' />"
+        "</svg>"
+    )
 
-    # ── helper: wrap each bulk of Trace-lines in <details> ────────────────
     @staticmethod
-    def _collapse_traces(raw: str) -> str:
+    def _parse_trace_line(line: str):
+        m = CodeEvalState._TRACE_RE.match(line.strip())
+        if not m:
+            raise ValueError("Not a trace line")
+        props_part, versions_part = m.group(1), m.group(2)
 
-        def _wrap(chunk: list[str]) -> str:
-            summary = chunk[0]
-            rest = "<br>".join(chunk[1:])  # may be empty
+        props = []
+        for entry in (p.strip() for p in props_part.split(";") if p.strip()):
+            pm = CodeEvalState._PROP_RE.match(entry)
+            if not pm:
+                raise ValueError(f"Could not parse proposition segment: {entry}")
+            name = pm.group(1).strip()
+            values_raw = [v.strip() for v in pm.group(2).split(",") if v.strip()]
+            values = []
+            for v in values_raw:
+                if re.fullmatch(r"true", v, re.I):
+                    values.append(True)
+                elif re.fullmatch(r"false", v, re.I):
+                    values.append(False)
+                else:
+                    raise ValueError(f"Value '{v}' must be True or False.")
+            props.append({"name": name, "values": values})
+
+        length = len(props[0]["values"])
+        for p in props:
+            if len(p["values"]) != length:
+                raise ValueError("All propositions must have the same number of steps.")
+
+        versions = []
+        for vm in CodeEvalState._VERSION_RE.finditer(versions_part):
+            versions.append(
+                {
+                    "name": vm.group(1),
+                    "accepted": re.fullmatch(r"true", vm.group(2), re.I) is not None,
+                }
+            )
+        if not versions:
+            raise ValueError("No version verdicts found.")
+
+        return {"props": props, "length": length, "versions": versions}
+
+    @classmethod
+    def _build_trace_html(cls, parsed: dict) -> str:
+        styles = cls._STYLES
+        color_map = {p["name"]: cls._COLORS[idx % len(cls._COLORS)] for idx, p in enumerate(parsed["props"])}
+
+        def render_step(t: int) -> str:
+            prop_html = []
+            for p in parsed["props"]:
+                state = p["values"][t]
+                color = color_map[p["name"]] if state else ""
+                style = styles["pill"] + (f"background:{color};" if state else styles["pill_false"])
+                prop_html.append(f"<div style=\"{style}\">{p['name']}</div>")
             return (
-                "<details>\n"
-                "  <summary>\n"
-                f"    {summary}\n"
-                "  </summary>\n"
-                f"  {rest}\n"
+                "<div style='display:flex;flex-direction:column;align-items:center;gap:2px;'>"
+                f"<div style=\"{styles['ellipse']}\">"
+                f"<div style=\"{styles['props']}\">{''.join(prop_html)}</div>"
+                "</div>"
+                "</div>"
+            )
+
+        steps = []
+        for t in range(parsed["length"]):
+            if t > 0:
+                steps.append(cls._ARROW_SVG)
+            steps.append(render_step(t))
+
+        verdicts = "".join(
+            f"<div style=\"{styles['status']}\"><span>Formula {v['name']}</span>"
+            f"<span style=\"{styles['badge_accept'] if v['accepted'] else styles['badge_reject']}\">"
+            f"{'Accept' if v['accepted'] else 'Reject'}</span></div>"
+            for v in parsed["versions"]
+        )
+
+        return (
+            f"<div style=\"{styles['vis']}\">"
+            f"<div style=\"{styles['steps']}\">{''.join(steps)}</div>"
+            f"<aside style=\"{styles['acceptance']}\">{verdicts}</aside>"
+            "</div>"
+        )
+
+    @classmethod
+    def _collapse_traces(cls, raw: str) -> str:
+        def _wrap(chunk: list[str]) -> str:
+            def _render_line(line: str) -> str:
+                try:
+                    parsed = cls._parse_trace_line(line)
+                    return cls._build_trace_html(parsed)
+                except Exception:
+                    return f"<div style=\"{cls._STYLES['fallback']}\">{line}</div>"
+
+            first = _render_line(chunk[0])
+            if len(chunk) == 1:
+                return f"<div style=\"{cls._STYLES['chunk']}\">{first}</div>"
+
+            rest_visuals = "".join(_render_line(line) for line in chunk[1:])
+            details = (
+                f"<details style=\"{cls._STYLES['details']}\">"
+                f"<summary style=\"{cls._STYLES['summary']}\">"
+                f"More traces ({len(chunk) - 1})"
+                "</summary>"
+                f"<div style=\"{cls._STYLES['stack']}\">{rest_visuals}</div>"
                 "</details>"
             )
+            return f"<div style=\"{cls._STYLES['chunk']}\">{first}{details}</div>"
 
         output_lines: list[str] = []
         trace_chunk: list[str] = []
@@ -229,21 +346,41 @@ class CodeEvalState(BaseState):
         import io as _io, contextlib as _cl
 
         buf = _io.StringIO()
+        ns = {}
+        printed_lines = []
+
+        def _capture_print(*args, **kwargs):
+            sep = kwargs.get("sep", " ")
+            end = kwargs.get("end", "\n")
+            line = sep.join(str(a) for a in args) + end
+            printed_lines.append(line)
+            buf.write(line)
         try:
-            with _cl.redirect_stdout(buf):
-                exec(ctx["compare_code"], {})
+            ns["print"] = _capture_print
+            with _cl.redirect_stdout(buf), _cl.redirect_stderr(buf):
+                exec(ctx["compare_code"], ns)
         except Exception as exc:
             self.io.say(f"Execution error: {exc}")
             sys.exit(1)
 
-        # raw trace output → collapsible HTML
         raw_output = buf.getvalue().strip()
+        if not raw_output and printed_lines:
+            raw_output = "".join(printed_lines).strip()
+        if not raw_output:
+            for key in ("output", "result", "traces", "trace_output", "sim_output", "lines"):
+                if key in ns:
+                    value = ns[key]
+                    if isinstance(value, list):
+                        raw_output = "\n".join(str(v) for v in value).strip()
+                    else:
+                        raw_output = str(value).strip()
+                    if raw_output:
+                        break
         ctx["sim_output"] = self._collapse_traces(raw_output) if raw_output else ""
 
         if ctx["sim_output"]:
             self.io.say("\n\nDifferentiation analysis:\n" + ctx["sim_output"])
 
-            # feed the (now collapsed) text to the LLM for an explanation
             tmpl = self.prompts.get("analyze_comp_output")
             explain = self.chat.new_message(tmpl.format(traces=ctx["sim_output"]))
             self.io.say(explain)
@@ -373,7 +510,7 @@ class ChooseSpecInputState(BaseState):
 # ────────────────────────────────────────────────────────────────
 # translate a free-text specification into a formula
 # ────────────────────────────────────────────────────────────────
-from monitor_generator import make_monitor_code   # already present earlier
+from monitor_generator import make_monitor_code, find_distinguishing_traces   # already present earlier
 
 class TranslateSpecState(BaseState):
     name = "TRANSLATE_SPEC"
@@ -388,8 +525,48 @@ class TranslateSpecState(BaseState):
         try:
             make_monitor_code(f)
             return True
-        except SyntaxError:
+        except:
             return False
+
+    @staticmethod
+    def _render_trace_block(trace_line: str) -> str:
+        try:
+            parsed = CodeEvalState._parse_trace_line(trace_line)
+            versions = parsed.get("versions", [])
+            accepts = [f"Formula {v['name']}" for v in versions if v["accepted"]]
+            rejects = [f"Formula {v['name']}" for v in versions if not v["accepted"]]
+            label = (
+                "<div style='margin:4px 0 6px;font-weight:600;'>"
+                f"A trace that satisfies {', '.join(accepts) if accepts else 'none'} "
+                f"and rejects {', '.join(rejects) if rejects else 'none'}:"
+                "</div>"
+            )
+            return "<div style='margin:8px 0;'>" + label + CodeEvalState._build_trace_html(parsed) + "</div>"
+        except Exception:
+            return f"<div style='margin:8px 0;'>{trace_line}</div>"
+
+    @classmethod
+    def _render_pairwise_comparisons(cls, formulas: list[str]) -> str:
+        blocks = []
+        for i in range(len(formulas)):
+            for j in range(i + 1, len(formulas)):
+                title = f"Comparison: formula {i+1} vs. formula {j+1}"
+                diffs = find_distinguishing_traces(formulas[i], formulas[j], i + 1, j + 1)
+                if not diffs:
+                    body = "<div style='margin:6px 0;'>The two formulas are equivalent.</div>"
+                else:
+                    traces_html = []
+                    for key in ("diff1", "diff2"):
+                        if key in diffs:
+                            traces_html.append(cls._render_trace_block(diffs[key]))
+                    body = "<div style='margin:6px 0;'>" + "".join(traces_html) + "</div>"
+                blocks.append(
+                    "<details style='margin:6px 0;'>"
+                    f"<summary style='cursor:pointer;font-weight:600;'>{title}</summary>"
+                    f"{body}"
+                    "</details>"
+                )
+        return "".join(blocks)
 
     def on_enter(self, ctx: Context) -> None:
         nl_spec = self.io.ask("Your specification in natural language → ").strip()
@@ -421,13 +598,51 @@ class TranslateSpecState(BaseState):
                     self.chat.pop_history(2)
                 continue
 
-            formula = data.get("formula", "").strip()
+            raw_formulas = data.get("formulas", [])
             mapping = data.get("var_mapping", "(no mapping)")
+            is_ambiguous = bool(data.get("is_ambiguous", False))
 
-            if self._valid_formula(formula):
-                self.io.say("\n### 📑 Variable mapping\n" + mapping)
-                self.io.say("\n### ✔️  Translated formula\n```text\n" + formula + "\n```")
-                ctx["formula"] = formula
+            if isinstance(raw_formulas, str):
+                raw_formulas = [raw_formulas]
+
+            formulas = [
+                f.strip()
+                for f in raw_formulas
+                if isinstance(f, str) and f.strip()
+            ]
+            valid_formulas = [f for f in formulas if self._valid_formula(f)]
+
+            if valid_formulas:
+                self.io.say("\n### Variable mapping\n" + mapping)
+                if len(valid_formulas) == 1:
+                    formula = valid_formulas[0]
+                    self.io.say("\n### Translated formula\n```text\n" + formula + "\n```")
+                    ctx["formula"] = formula
+                    ctx["needs_formula_selection"] = False
+                    ctx["translation_success"] = True
+                    break
+
+                if is_ambiguous:
+                    self.io.say("\nThe specification appears ambiguous. Possible formulas:")
+                else:
+                    self.io.say("\nMultiple translations were returned. Possible formulas:")
+
+                lines = [f"{i + 1}. {f}" for i, f in enumerate(valid_formulas)]
+                self.io.say("\n```text\n" + "\n".join(lines) + "\n```")
+
+                if is_ambiguous:
+                    comparisons_html = self._render_pairwise_comparisons(valid_formulas)
+                    if comparisons_html:
+                        self.io.say("\nTo better understand the differences between the different formulas, see the comparisons below:\n" + comparisons_html)
+
+                if is_ambiguous:
+                    ctx["ambiguous_formulas"] = valid_formulas
+                    ctx["needs_formula_selection"] = True
+                    ctx["translation_success"] = True
+                    break
+
+                ctx["formula"] = valid_formulas[0]
+                ctx["needs_formula_selection"] = False
                 ctx["translation_success"] = True
                 break
 
@@ -437,11 +652,39 @@ class TranslateSpecState(BaseState):
                 self.chat.pop_history(2)
 
     def next_state(self, ctx: Context) -> Optional[str]:
-        return "CONFIRM_FORMULA" if ctx.get("translation_success") else "TRANSLATE_SPEC"
+        if ctx.get("translation_success"):
+            return "FORMULA_SELECTION" if ctx.get("needs_formula_selection") else "CONFIRM_FORMULA"
+        return "TRANSLATE_SPEC"
 
 # ────────────────────────────────────────────────────────────────
 # User confirmation for the formula
 # ────────────────────────────────────────────────────────────────
+class FormulaSelectionState(BaseState):
+    name = "FORMULA_SELECTION"
+
+    def on_enter(self, ctx: Context) -> None:
+        formulas = ctx.get("ambiguous_formulas", [])
+        if not formulas:
+            ctx["formula"] = None
+            ctx["formula_selection_ok"] = False
+            return
+
+        while True:
+            choice = self.io.ask("Choose a formula number: ").strip()
+            try:
+                idx = int(choice) - 1
+            except ValueError:
+                idx = -1
+            if 0 <= idx < len(formulas):
+                ctx["formula"] = formulas[idx]
+                ctx["formula_selection_ok"] = True
+                break
+            self.io.say("Please enter a valid number from the list.")
+
+    def next_state(self, ctx: Context) -> Optional[str]:
+        return "GENERATE_MONITOR" if ctx.get("formula_selection_ok") else "FORMULA_SELECTION"
+
+
 class ConfirmFormulaState(BaseState):
     name = "CONFIRM_FORMULA"
 
@@ -537,6 +780,7 @@ def build_construct_validator(chat: Chat, io: IOHandler, prompts: PromptLibrary)
         AnalyzeTracesState(chat, io, prompts),
         ChooseSpecInputState(chat, io, prompts),
         TranslateSpecState(chat, io, prompts),
+        FormulaSelectionState(chat, io, prompts),
         ConfirmFormulaState(chat, io, prompts),
         InsertFormulaState(chat, io, prompts),
         GenerateMonitorState(chat, io, prompts),

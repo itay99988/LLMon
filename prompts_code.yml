@@ -13,10 +13,16 @@ prompts:
     The first received event is considered as the first in the event sequence, and the most recent event is considered as the last in the sequence.
     
     Create four different python codes that calculate the truth value of the operator, once a new event arrives. Each code should be based on a slightly different natural language interpretation of the operator description. 
-    Important: The code should update the truth value of the operator in an efficient way. 
+    Each slightly different interpretation should be a description that people that understand mathematical logic may give for the original operator description.
+    Important: The code should update the truth value of the operator in an efficient way, using finite domains variables.
     
-    - You may store any additional values that may help to successfully calculate the truth value.
+    - You may store any additional values that may help to successfully calculate the truth value. These variables should also have finite domains.
     - Number the different codes and clearly explain the interpretation they represent. The explanation should reliably reflect the related code.
+    - Any code snippet should be a fenced Python code block, e.g.:
+
+      ```python
+      # code here
+      ```
 
 
   create_rules_code: |-
@@ -32,7 +38,8 @@ prompts:
     
     The first line that the script should print is the version name. When a new comparison begins, write a caption that corresponds the comparison.
     Important: use the following format to display distinguishing sequences: (replace variable_name, boolean values and formula numbers with the actual names and values)
-    "Trace: <variable_name> = (T, T, T); <variable_name> = (T, F, T) => Version 1: True, Version 3: False"
+    "Trace: <variable_name> = (True, True, True); <variable_name> = (True, False, True) => Version 1: True, Version 3: False"
+    It is important to follow this format exactly.
     If two versions have no distinguishing traces, clearly mention that the two versions are equivalent. Do not use pandas. 
     
     The code should be a fenced Python code block, e.g.:
@@ -40,6 +47,7 @@ prompts:
         ```python
         # code here
         ```
+    and it should not include a if __name__ == "__main__" block, but it should be a complete code that can be run as is.
 
   analyze_comp_output: |-
     Consider the different trace comparisons (primary code vs. other code)
@@ -91,13 +99,15 @@ prompts:
     Consider the following set of temporal operators:
     {new_constructs}
 
-    based on these operators and their symbols, translate the following specification into a formula:
+    Based on these operators and their symbols, translate the following specification into a formula:
     {nl_spec}
 
     guidelines:
     - detect the events in the specification, and turn each event into a boolean variable (q1, q2 etc)
-    - the formula should contain only previously mentioned constructs, the common logical connectives (and, or, not..) and boolean variables.
-    -You are provided with three simple examples :
+    - important: think if the specification is ambiguous or not. specifically, think if there are two or more similar operator that fits the natural language description. if it is ambiguous, provide all the possible translations. if it is not ambiguous, provide the single correct translation.
+    - the formula (or formulas) should contain only previously mentioned constructs, the common logical connectives (and, or, not..) and boolean variables.
+    - important:when you write a formula, use the following notation for a binary operator: 'q1 BINOP q2' (replace BINOP with the relevant symbol), and the following symbols for the logical connectives: !, &&, ||, ->, <->.
+    - you are provided with four simple examples:
     1. natural language: "The robot was at the store at all times."
     temporal formula:  H(q1)
     2. natural language: "Whenever the robot is was at the garage, it is not at home."
@@ -107,5 +117,9 @@ prompts:
     4. natural language: "the robot was previously at q2, but since then it was always at q1."
     temporal formula: q1 S q2
 
-    Your final response should contain a json file with two keys. First key- 'var_mapping' - its value is a string that explains the NL event and their associated boolean variables. 
-    Second key - 'formula' - its value should be the translated formula (a formula with boolean variables).
+  
+
+    Your final response should contain a json file with a few keys keys: 
+    First key- 'var_mapping' - its value is a string that explains the NL event and their associated boolean variables. 
+    Second key - 'is_ambiguous' - its value should be either True or False, depending on whether the specification is ambiguous or not.
+    Third key - 'formulas' - its value should be a list of the possible translations (one or more formulas with boolean variables).
